@@ -16,7 +16,7 @@ def chatgpt_response(prompt):
             {"role": "user", "content": prompt},
         ],
         temperature=1,
-        max_tokens=100,
+        max_tokens=4000,
     )
     response_dict = response.choices
     if response_dict and len(response_dict) > 0:

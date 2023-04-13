@@ -1,0 +1,69 @@
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  # The following are specific to Black, you probably don't want those.
+  | blib2to3
+  | tests/data
+  | profiling
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 100
+extend_skip = [
+    "tmp",
+    ".venv",
+    "ext",
+    "ext_bin",
+    "venv",
+    "build",
+    ]
+skip_gitignore = true
+
+[tool.coverage.run]
+omit = ["*/tests/*"]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib", 
+    "--cov-branch", 
+    "--cov-fail-under=1", 
+    "--cov-config=pyproject.toml", 
+    "--cov=src", 
+    "--cov-report=term-missing", 
+    "--cov-report=xml"
+    ]
+markers = [
+    "config_retry_duration: load config for testing retry function with retry duration limit",
+    "config_retry_limit:  load config for testing retry function with retry count limit",
+]
+
+pythonpath = ["src"]
+log_cli = 1
+
+[tool.pylint.main]
+ignore-paths = ["venv", ".venv", "src/tests"]
+
+[tool.pylint.MASTER]
+init-hook = 'import sys; sys.path.append("."); sys.path.append("./src")'
+
+
+[tool.pylint.messages_control]
+max-line-length = 120
+# To allow f-strings in logging messages
+disable = "logging-fstring-interpolation"

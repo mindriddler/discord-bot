@@ -51,9 +51,7 @@ class DiscordBotLogger:
         dm_log_path = f"logs/dm_logs/{user_id}.log"
         logger = loguru.logger
         if not hasattr(loguru.logger.__class__, f"{user_id}"):
-            loguru.logger.__class__.user_id = partialmethod(
-                loguru.logger.__class__.log, f"{user_id}"
-            )
+            loguru.logger.__class__.user_id = partialmethod(loguru.logger.__class__.log, f"{user_id}")
             self.add_custom_level(f"{user_id}", no=5, color="<magenta>", icon="-")
 
         logger.add(
@@ -74,14 +72,10 @@ class DiscordBotLogger:
         logger = loguru.logger
         logger.remove()
         if not hasattr(loguru.logger.__class__, "command"):
-            loguru.logger.__class__.command = partialmethod(
-                loguru.logger.__class__.log, "command"
-            )
+            loguru.logger.__class__.command = partialmethod(loguru.logger.__class__.log, "command")
             logger.level("command", no=10, color="<green>", icon="-")
         if not hasattr(loguru.logger.__class__, "channel"):
-            loguru.logger.__class__.channel = partialmethod(
-                loguru.logger.__class__.log, "channel"
-            )
+            loguru.logger.__class__.channel = partialmethod(loguru.logger.__class__.log, "channel")
             logger.level("channel", no=15, color="<green>", icon="-")
         # Add new handler with custom formatter
         logger.add(self.log_path, format=self._formatter, level=self.log_level)
