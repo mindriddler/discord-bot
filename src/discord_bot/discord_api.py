@@ -1,59 +1,96 @@
-from dotenv import load_dotenv
-import discord
 import os
+import shutil
+
+import discord
+from dotenv import load_dotenv
 
 from src.chatgpt_ai.openai import chatgpt_response
+from src.discord_bot.discord_log_handler import DiscordLogHandler
+from src.discord_bot.logger_conf import DiscordBotLogger
 
 load_dotenv()
 
 discord_token = os.getenv("DISCORD_TOKEN")
+log_folder = "logs"
+if os.path.exists(log_folder):
+    shutil.rmtree(log_folder)
 
 
 class Client(discord.Client):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        channel_log_name = "channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
+        command_log_name = "command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
+        self.bot_logger = DiscordBotLogger(
+            enqueue=True,
+            _log_path_channel=f"logs/{channel_log_name}",
+            _log_path_command=f"logs/{command_log_name}",
+        )
+        #
+        self.logger = self.bot_logger.get_logger()
+        DiscordLogHandler()
+        self.dm_loggers = {}
+
     async def on_ready(self):
-        print("Successfully logged in as: ", self.user)
+        self.logger.info(f"Successfully logged in as: {self.user}")
 
     async def on_message(self, message):
         if message.author == self.user:
             return
 
-        # Replace CHANNEL_ID with the ID of the channel dedicated to the bot
+        # self.logger.info(
+        #    f"Received message: '{message.content}' from '{message.author}' in channel '{message.channel}'",
+        #    extra={"user_id": message.author.id},
+        # )
+
         dedicated_channel_id = 1095796880706908160
 
-        # Check if the message comes from the dedicated channel or DMs
-        if message.channel.id == dedicated_channel_id:
+        if isinstance(message.channel, discord.DMChannel):
+            user_id = str(message.author)
+            if user_id not in self.dm_loggers:
+                dm_logger = self.bot_logger.get_dm_logger_for_user(user_id)
+                self.dm_loggers[user_id] = dm_logger
+            self.dm_loggers[user_id].user_id(
+                f"Hello {message.author.name}, this is a DM from ChatGPT. You can now have a conversation with me here and it will be our little secret."
+            )
             user_message = message.content
-            print(f"Message from {message.author}: \n{user_message}\n")
+            self.dm_loggers[user_id].user_id(
+                f"{message.author} >> {self.user}: {user_message}"
+            )
             bot_response = chatgpt_response(prompt=user_message)
-            await message.channel.send(
-                f"Answer for {message.author.mention}: {bot_response}"
+            await message.channel.send(bot_response)
+            self.dm_loggers[user_id].user_id(
+                f"{self.user} >> {message.author}: {bot_response}"
             )
 
-            print(f"Answer in DM for author {message.author}: \n{bot_response}\n")
-        elif message.channel.id == isinstance(message.channel, discord.DMChannel):
+        elif message.channel.id == dedicated_channel_id:
             user_message = message.content
-            print(f"Message from {message.author}: \n{user_message}\n")
+            self.logger.channel(f"{message.author} >> {self.user}: {user_message}")
             bot_response = chatgpt_response(prompt=user_message)
-            await message.channel.send(f"{bot_response}")
-            print(f"Answer in DM for author {message.author}: \n{bot_response}\n")
+            await message.channel.send(f"{message.author.mention}: {bot_response}")
+            self.logger.channel(f"{self.user} >> {message.author}: {bot_response}")
 
         else:
             command, user_message = None, None
-
             for text in ["/ai", "/bot", "/chatgpt", "/gpt", "/dm"]:
                 if message.content.startswith(text):
                     command = message.content.split(" ")[0]
                     user_message = message.content.replace(text, "")
 
             if command in ["/ai", "/bot", "/chatgpt", "/gpt"]:
-                print(f"Command: {command}, User message: {user_message}")
+                self.logger.command(
+                    f"{message.author}, Command: '{command}' >> {self.user}: {user_message}"
+                )
                 bot_response = chatgpt_response(prompt=user_message)
-                await message.channel.send(f"Answer: {bot_response}")
-            elif command == "/dm chatgpt":
-                print(f"DM Command received from {message.author}")
+                await message.channel.send(f"{message.author.mention}: {bot_response}")
+                self.logger.command(f"{self.user} >> {message.author}: {bot_response}")
+            elif command == "/dm":
+                self.logger.command(f"Command: {command}, User: {message.author}")
+                self.logger.info(f"Starting private conversation with {message.author}")
                 dm_channel = await message.author.create_dm()
                 await dm_channel.send(
-                    f"Hello {message.author.name}, this is a DM from the bot. You can now have a conversation with me here."
+                    f"Hello {message.author.name}, this is a DM from ChatGPT. You can now have a conversation with me here and it will be our little secret."
                 )
 
 
