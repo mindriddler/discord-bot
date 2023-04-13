@@ -1,10 +1,8 @@
 import logging
 import logging.handlers
 
-import discord
 
-
-def DiscordLogHandler():
+def discordloghandler():
     logger = logging.getLogger("discord")
     logger.setLevel(logging.DEBUG)
     logging.getLogger("discord.http").setLevel(logging.INFO)

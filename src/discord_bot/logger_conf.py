@@ -1,7 +1,6 @@
 from __future__ import annotations  # Needed for loguru.Logger typing hint
 
 import datetime
-import re
 import sys
 from functools import partialmethod
 

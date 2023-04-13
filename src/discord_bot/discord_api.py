@@ -5,31 +5,33 @@ import discord
 from dotenv import load_dotenv
 
 from src.chatgpt_ai.openai import chatgpt_response
-from src.discord_bot.discord_log_handler import DiscordLogHandler
+from src.discord_bot.discord_log_handler import discordloghandler
 from src.discord_bot.logger_conf import DiscordBotLogger
 
 load_dotenv()
 
+# Just for testing purpose. Remove when code is "done"
+# TODO
 discord_token = os.getenv("DISCORD_TOKEN")
-log_folder = "logs"
-if os.path.exists(log_folder):
-    shutil.rmtree(log_folder)
+LOG_FOLDER = "logs"
+if os.path.exists(LOG_FOLDER):
+    shutil.rmtree(LOG_FOLDER)
 
 
-class Client(discord.Client):
+class Bot(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        channel_log_name = "channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
-        command_log_name = "command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
+        self.dedicated_channel_id = 1095796880706908160
+        self.channel_log_name = "channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
+        self.command_log_name = "command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
         self.bot_logger = DiscordBotLogger(
             enqueue=True,
-            _log_path_channel=f"logs/{channel_log_name}",
-            _log_path_command=f"logs/{command_log_name}",
+            _log_path_channel=f"logs/{self.channel_log_name}",
+            _log_path_command=f"logs/{self.command_log_name}",
         )
         #
         self.logger = self.bot_logger.get_logger()
-        DiscordLogHandler()
+        discordloghandler()
         self.dm_loggers = {}
 
     async def on_ready(self):
@@ -38,13 +40,6 @@ class Client(discord.Client):
     async def on_message(self, message):
         if message.author == self.user:
             return
-
-        # self.logger.info(
-        #    f"Received message: '{message.content}' from '{message.author}' in channel '{message.channel}'",
-        #    extra={"user_id": message.author.id},
-        # )
-
-        dedicated_channel_id = 1095796880706908160
 
         if isinstance(message.channel, discord.DMChannel):
             user_id = str(message.author)
@@ -64,7 +59,7 @@ class Client(discord.Client):
                 f"{self.user} >> {message.author}: {bot_response}"
             )
 
-        elif message.channel.id == dedicated_channel_id:
+        elif message.channel.id == self.dedicated_channel_id:
             user_message = message.content
             self.logger.channel(f"{message.author} >> {self.user}: {user_message}")
             bot_response = chatgpt_response(prompt=user_message)
@@ -97,4 +92,4 @@ class Client(discord.Client):
 intents = discord.Intents.default()
 intents.message_content = True
 
-client = Client(intents=intents)
+client = Bot(intents=intents)
