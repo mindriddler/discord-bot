@@ -18,8 +18,8 @@ jobs:
       run: |
         docker build \
           --file Docker/Dockerfile \
-          --tag chatgpt-discord-bot:$(date +%s) \
           --build-arg DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }} \
-          --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+          --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
+          --tag chatgpt-discord-bot:$(date +%s) .
 
 
