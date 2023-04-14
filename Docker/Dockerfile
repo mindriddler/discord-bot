@@ -1,8 +1,8 @@
 # Use the official Python image as the base image
-FROM python:3.9-slim
+FROM python:latest
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /src
 
 # Copy the requirements file into the container
 COPY requirements.txt .
