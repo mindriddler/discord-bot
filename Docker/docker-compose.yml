@@ -4,7 +4,7 @@ services:
   chatgpt-discord-bot:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Docker/Dockerfile
       args:
         DISCORD_TOKEN: ${DISCORD_TOKEN}
         OPENAI_API_KEY: ${OPENAI_API_KEY}

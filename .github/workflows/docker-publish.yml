@@ -24,5 +24,6 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
+        file: Docker/Dockerfile
         push: true
         tags: ghcr.io/${{ github.repository }}/chatgpt-discord-bot:latest
