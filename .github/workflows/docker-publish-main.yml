@@ -1,23 +1,24 @@
-name: Docker Image CI
+name: Docker Image CI Main
 
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    types: [closed]
 
 jobs:
   build:
+    #if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: |
-        docker build --file Docker/Dockerfile --tag ghcr.io/mindriddler/chatgpt-discord-bot:dev .
+        docker build --file Docker/Dockerfile --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest .
     - name: Log in to GitHub Container Registry
       run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Push the Docker image
-      run: docker push ghcr.io/mindriddler/chatgpt-discord-bot:dev
-
-
-
+      run: docker push ghcr.io/mindriddler/chatgpt-discord-bot:latest
 
