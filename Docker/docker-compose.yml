@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  ChatGPT-Discord-Bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DISCORD_TOKEN: ${DISCORD_TOKEN}
+        OPENAI_API_KEY: ${OPENAI_API_KEY}
+    image: ghcr.io/mindriddler/ChatGPT-Discord-Bot:latest
+    container_name: ChatGPT-Discord-Bot
+    volumes:
+      - .:/src
+      - ./ChatGPT-Discord-Bot/logs/:/logs
