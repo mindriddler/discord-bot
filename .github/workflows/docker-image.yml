@@ -55,6 +55,6 @@ jobs:
           owner: ${{ github.repository_owner }}
           package-name: "chatgpt-discord-bot-dev"
           package-type: "container"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GHCR_PAT }}
           min-versions-to-keep: 0
           delete-only-untagged-versions: "true"
