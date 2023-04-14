@@ -16,4 +16,4 @@ jobs:
           package-name: chatgpt-discord-bot-dev
           tag: ${{ github.event.pull_request.number }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          github-org: ${{ github.repository_owner }}
+          github-user: ${{ github.repository_owner }}
