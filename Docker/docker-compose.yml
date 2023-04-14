@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  chatgpt-discord-bot:
+    image: ghcr.io/mindriddler/chatgpt-discord-bot:latest
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    container_name: chatgpt-discord-bot
+    volumes:
+      - .:/src
+      - ./chatgpt-discord-bot/logs/:/logs
