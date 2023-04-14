@@ -7,11 +7,18 @@ on:
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Switch to main branch
+      run: |
+        if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
+          git fetch origin main:main
+          git checkout main
+        fi
     - name: Build the Docker image
       run: |
         docker build --file Docker/Dockerfile --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest .
@@ -19,6 +26,7 @@ jobs:
       run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Push the Docker image
       run: docker push ghcr.io/mindriddler/chatgpt-discord-bot:latest
+
 
 
 
