@@ -16,8 +16,7 @@ jobs:
       run: docker build --file Docker/Dockerfile --build-arg DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }} --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} -t chatgpt-discord-bot:$(date +%s) .
 
     - name: Push Docker Image
-        run: |
-          docker image push --all-tags ghcr.io/mindriddler/chatgpt-discord-bot
+      run: docker image push --all-tags ghcr.io/mindriddler/chatgpt-discord-bot
 
 
 
