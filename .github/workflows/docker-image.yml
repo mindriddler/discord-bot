@@ -40,7 +40,6 @@ jobs:
             ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.actor }}
             ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.event.number }}
             ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ steps.convert_branch_name.outputs.branch_name }}
-            ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
           provenance: false
