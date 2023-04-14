@@ -8,28 +8,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Login to Github Container Registry
-        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a #v2.1.0
-        with:
-          registry: ghcr.io
-          username: mindriddler
-          password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Convert branch name
-        id: convert_branch_name
-        run: echo "branch_name=$(sed 's|/|_|g' <<<${{ github.head_ref }} )" >> "$GITHUB_OUTPUT"
-    - name: Build and push
-        uses: docker/build-push-action
-        with:
-          context: .
-          build-args: GITHUB_ACTION=true
-          file: ./Docker/Dockerfile
-          push: true
-          tags: |
-            ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.actor }}
-            ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.event.number }}
-            ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ steps.convert_branch_name.outputs.branch_name }}
-          provenance: false
+      - uses: actions/checkout@v3
+      - name: Login to Github Container Registry
+          uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a #v2.1.0
+          with:
+            registry: ghcr.io
+            username: mindriddler
+            password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Convert branch name
+          id: convert_branch_name
+          run: echo "branch_name=$(sed 's|/|_|g' <<<${{ github.head_ref }} )" >> "$GITHUB_OUTPUT"
+      - name: Build and push
+          uses: docker/build-push-action
+          with:
+            context: .
+            build-args: GITHUB_ACTION=true
+            file: ./Docker/Dockerfile
+            push: true
+            tags: |
+              ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.actor }}
+              ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.event.number }}
+              ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ steps.convert_branch_name.outputs.branch_name }}
+            provenance: false
 
 
 
