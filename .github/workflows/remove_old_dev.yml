@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: chipkent/action-cleanup-package@1316a66015b82d745b57acbb6c570f2bb1d108f9  #v1.0.3
         with:
-          package-name: gchatgpt-discord-bot-dev
+          package-name: chatgpt-discord-bot-dev
           tag: ${{ github.event.pull_request.number }}
           github-token: ${{ secrets.GHCR_PAT }}
           github-org: ${{ github.repository_owner }}
