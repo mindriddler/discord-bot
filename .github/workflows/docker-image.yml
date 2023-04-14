@@ -53,7 +53,7 @@ jobs:
         uses: actions/delete-package-versions@v4
         with:
           owner: ${{ github.repository_owner }}
-          package-name: "chatgpt-discord-bot-dev-dev"
+          package-name: "chatgpt-discord-bot-dev"
           package-type: "container"
           token: ${{ secrets.GITHUB_TOKEN }}
           min-versions-to-keep: 0
