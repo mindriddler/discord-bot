@@ -38,8 +38,20 @@ jobs:
             ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.actor }}
             ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.event.number }}
             ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ steps.convert_branch_name.outputs.branch_name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
           provenance: false
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-
-
-
+      - name: Delete all untagged images
+        uses: actions/delete-package-versions@0d39a63126868f5eefaa47169615edd3c0f61e20 #v4.1.1
+        with:
+          owner: ${{ github.repository_owner }}
+          package-name: "chatgpt-discord-bot-dev-dev"
+          package-type: "container"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-versions-to-keep: 0
+          delete-only-untagged-versions: "true"
