@@ -15,5 +15,5 @@ jobs:
         with:
           package-name: gchatgpt-discord-bot-dev
           tag: ${{ github.event.pull_request.number }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GHCR_PAT }}
           github-org: ${{ github.repository_owner }}
