@@ -44,5 +44,5 @@ class Client(discord.Client):
 
 intents = discord.Intents.default()
 intents.message_content = True
-
+#
 client = Client(intents=intents)
