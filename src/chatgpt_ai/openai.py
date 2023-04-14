@@ -1,6 +1,7 @@
-from dotenv import load_dotenv
-import openai
 import os
+
+import openai
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -15,7 +16,7 @@ def chatgpt_response(prompt):
             {"role": "user", "content": prompt},
         ],
         temperature=1,
-        max_tokens=100,
+        max_tokens=4000,
     )
     response_dict = response.choices
     if response_dict and len(response_dict) > 0:
