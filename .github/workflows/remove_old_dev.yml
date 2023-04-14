@@ -1,0 +1,19 @@
+name: remove_old_dev
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  remove-old-dev-img:
+    name: Delete Old Dev Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: chipkent/action-cleanup-package@1316a66015b82d745b57acbb6c570f2bb1d108f9  #v1.0.3
+        with:
+          package-name: gchatgpt-discord-bot-dev
+          tag: ${{ github.event.pull_request.number }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-org: ${{ github.repository_owner }}
