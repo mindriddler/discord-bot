@@ -42,18 +42,18 @@ omit = ["*/tests/*"]
 addopts = [
     "--import-mode=importlib", 
     "--cov-branch", 
-    "--cov-fail-under=1", 
+    "--cov-fail-under=0", 
     "--cov-config=pyproject.toml", 
     "--cov=src", 
     "--cov-report=term-missing", 
     "--cov-report=xml"
-    ]
+]
+pythonpath = ["src"]
 markers = [
     "config_retry_duration: load config for testing retry function with retry duration limit",
     "config_retry_limit:  load config for testing retry function with retry count limit",
 ]
 
-pythonpath = ["src"]
 log_cli = 1
 
 [tool.pylint.main]

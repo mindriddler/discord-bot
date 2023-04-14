@@ -1,17 +1,17 @@
 import asyncio
 import os
 
-import discord
 from dotenv import load_dotenv
 
-from src.chatgpt_ai.openai import chatgpt_response
-from src.discord_bot.logger_conf import DiscordBotLogger
-from src.utils.utils import (
+import discord
+from chatgpt.openai_api import chatgpt_response
+from utils.logger_conf import DiscordBotLogger
+from utils.utils import (
     ABOUT_STR,
     DEFAULT_DM_MESSAGE,
     DEFAULT_THREAD_MESSAGE,
-    HELP_STR,
     DISCLAIMER,
+    HELP_STR,
     discordloghandler,
     remove_log_folder,
 )
@@ -133,7 +133,7 @@ class Bot(discord.Client):
                 self.logger.info(f"Starting private conversation with {message.author}")
                 dm_channel = await message.author.create_dm()
                 await dm_channel.send(f"Hello {message.author.name}, {DEFAULT_DM_MESSAGE}")
-            elif command == "!help" or command == "!about":
+            elif command in ("!help", "!about"):
                 dm_channel = await message.author.create_dm()
                 self.logger.command(f"Command: {command}, User: {message.author}")
                 if command == "!help":

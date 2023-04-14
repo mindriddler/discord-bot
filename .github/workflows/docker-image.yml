@@ -1,22 +1,60 @@
-name: Docker Image CI Dev
+name: Docker Image CI DevTest
 
 on:
-  push:
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: |
-        docker build --file Docker/Dockerfile --tag ghcr.io/mindriddler/chatgpt-discord-bot-dev:latest .
-    - name: Log in to GitHub Container Registry
-      run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-    - name: Push the Docker image
-      run: docker push ghcr.io/mindriddler/chatgpt-discord-bot-dev:latest
+      - uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4b4e9c3e2d4531116a6f8ba8e71fc6e2cb6e6c8c #v2.5.0
+      - name: Cache Docker layers
+        uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 #v3.3.1
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      - name: Login to Github Container Registry
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a #v2.1.0
+        with:
+          registry: ghcr.io
+          username: mindriddler
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Convert branch name
+        id: convert_branch_name
+        run: echo "branch_name=$(sed 's|/|_|g' <<< '${{ github.head_ref || github.ref }}' )" >> "$GITHUB_OUTPUT"
+      - name: Build and push
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          build-args: |
+            GITHUB_ACTION=true
+            DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}
+            CHATGPT_API_KEY=${{ secrets.CHATGPT_API_KEY }}
+          file: ./Docker/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.actor }}
+            ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ github.event.number }}
+            ghcr.io/mindriddler/chatgpt-discord-bot-dev:${{ steps.convert_branch_name.outputs.branch_name }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          provenance: false
+      - name: Move cache
+        run: |
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
-
-
-
+      - name: Delete all untagged images
+        uses: actions/delete-package-versions@v4
+        with:
+          owner: ${{ github.repository_owner }}
+          package-name: "chatgpt-discord-bot-dev"
+          package-type: "container"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-versions-to-keep: 0
+          delete-only-untagged-versions: "true"

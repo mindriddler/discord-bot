@@ -1,4 +1,4 @@
-from __future__ import annotations  # Needed for loguru.Logger typing hint
+from __future__ import annotations
 
 import datetime
 import sys
@@ -42,9 +42,9 @@ class DiscordBotLogger:
             "\n<red>{exception}</red>"
         )
 
-    def add_custom_level(self, name, no, color, icon):
+    def add_custom_level(self, name, level, color, icon):
         if name not in self.custom_levels:
-            loguru.logger.level(name, no=no, color=color, icon=icon)
+            loguru.logger.level(name, no=level, color=color, icon=icon)
             self.custom_levels.append(name)
 
     def get_dm_logger_for_user(self, user_id: str) -> loguru.Logger:
@@ -52,7 +52,7 @@ class DiscordBotLogger:
         logger = loguru.logger
         if not hasattr(loguru.logger.__class__, f"{user_id}"):
             loguru.logger.__class__.user_id = partialmethod(loguru.logger.__class__.log, f"{user_id}")
-            self.add_custom_level(f"{user_id}", no=5, color="<magenta>", icon="-")
+            self.add_custom_level(f"{user_id}", level=5, color="<magenta>", icon="-")
 
         logger.add(
             dm_log_path,

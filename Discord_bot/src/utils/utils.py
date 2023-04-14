@@ -42,8 +42,8 @@ def remove_log_folder():
     if os.path.exists(LOG_FOLDER):
         shutil.rmtree(LOG_FOLDER)
     os.mkdir("logs")
-    with open("logs/.gitkeep", "w") as f:
-        f.close()
+    with open("logs/.gitkeep", "w", encoding="utf-8") as file:
+        file.close()
 
 
 def discordloghandler():

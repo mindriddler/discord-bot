@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-openai.api_key = os.getenv("CHATGPT_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def chatgpt_response(prompt):
@@ -19,6 +19,7 @@ def chatgpt_response(prompt):
         max_tokens=4000,
     )
     response_dict = response.choices
+    prompt_response = ""  # Initialize the variable with an empty string
     if response_dict and len(response_dict) > 0:
         prompt_response = response_dict[0].message["content"]
     return prompt_response.strip()

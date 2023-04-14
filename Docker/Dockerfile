@@ -1,11 +1,14 @@
 # Use the official Python image as the base image
-FROM python:latest
+FROM --platform=linux/amd64 python:3.11.2-alpine3.17
 
 # Set the working directory
 WORKDIR /src
 
 # Copy the requirements file into the container
-COPY requirements.txt .
+COPY ./Discord_bot/requirements.txt ./
+
+RUN apk update
+RUN apk upgrade
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -17,7 +20,7 @@ ARG OPENAI_API_KEY
 ENV OPENAI_API_KEY=${OPENAI_API_KEY}
 
 # Copy the rest of the application code into the container
-COPY . .
+COPY ./Discord_bot/src .
 
 # Run the application
-CMD ["python", "run.py"]
+CMD ["/usr/local/bin/python", "bot.py"]
