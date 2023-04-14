@@ -11,9 +11,8 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: mindriddler/action-cleanup-package@335acadff6ca720d7f91ae85b23d5fbd38f29a69  #v1.0.3
+      - uses: chipkent/action-cleanup-package@v1.0.3  #v1.0.3
         with:
           package-name: chatgpt-discord-bot-dev
           tag: ${{ github.event.pull_request.number }}
           github-token: ${{ secrets.GHCR_PAT }}
-          github-user: ${{ github.repository_owner }}
