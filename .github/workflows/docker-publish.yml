@@ -26,4 +26,4 @@ jobs:
         context: .
         file: Docker/Dockerfile
         push: true
-        tags: ghcr.io/${{ github.repository }}/chatgpt-discord-bot:latest
+        tags: ghcr.io/${{ github.actor }}/chatgpt-bot:latest
