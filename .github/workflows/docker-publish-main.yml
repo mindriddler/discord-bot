@@ -1,24 +1,17 @@
 name: Docker Image CI Main
 
 on:
-  pull_request:
-    branches: [ "main" ]
-    types: [closed]
+  push:
+    branches: 
+      - "main"
+
 
 jobs:
   build:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
       uses: actions/checkout@v3
-    - name: Switch to main branch
-      run: |
-        if [[ "${{ github.ref }}" != "refs/heads/main" ]]; then
-          git fetch origin main:main
-          git checkout main
-        fi
     - name: Build the Docker image
       run: |
         docker build --file Docker/Dockerfile --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest .
