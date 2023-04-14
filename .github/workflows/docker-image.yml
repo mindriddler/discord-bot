@@ -1,7 +1,6 @@
 name: Docker Image CI DevTest
 
 on:
-  push:
   pull_request:
 
 jobs:
