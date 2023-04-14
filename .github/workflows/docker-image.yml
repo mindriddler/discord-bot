@@ -17,7 +17,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Convert branch name
         id: convert_branch_name
-        run: echo "branch_name=$(sed 's|/|_|g' <<<${{ github.head_ref }} )" >> "$GITHUB_OUTPUT"
+        run: echo "branch_name=$(sed 's|/|_|g' <<< '${{ github.head_ref }}' )" >> "$GITHUB_OUTPUT"
       - name: Build and push
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
