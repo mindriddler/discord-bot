@@ -1,0 +1,14 @@
+.git
+.gitignore
+.github
+.DS_STORE
+__pycache__
+venv
+.venv
+.pytest_cache
+.venv
+.vscode
+ansible
+.coverage
+.coverage.xml
+README.md
