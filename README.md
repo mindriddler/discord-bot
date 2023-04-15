@@ -1,4 +1,4 @@
 [![Test and lint](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/main.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/main.yml)
-[![Docker image Latest](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/docker-publish-main.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/docker-publish-main.yml)
-[![Docker image Dev](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/docker-image.yml)
+[![Release build](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/release.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/release.yml)
+[![Dev build](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/dev.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/dev.yml)
 [![Remove old Dev images](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/remove_old_dev.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/remove_old_dev.yml)
