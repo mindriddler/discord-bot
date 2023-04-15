@@ -1,4 +1,4 @@
-name: Docker Image CI Main
+name: Release image
 
 on:
   push:
@@ -10,14 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
+    - name: Checkout
+      uses: actions/checkout@v3
+    
+    - name: Login to Github Container Registry
+      uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a #v2.1.0
+      with:
+        registry: ghcr.io
+        username: mindriddler
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Build & Tag Docker Image
       run: |
-        docker build --file Docker/Dockerfile --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest .
-    - name: Log in to GitHub Container Registry
-      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-    - name: Push the Docker image
-      run: docker push ghcr.io/mindriddler/chatgpt-discord-bot:latest
+        export DOCKER_BUILDKIT=1
+        docker build --build-arg GITHUB_ACTION=true \
+          --file ./Docker/Dockerfile \
+          --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest \
+          --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ github.sha }} .
+
+    - name: Push Docker Image
+      run: |
+        docker image push --all-tags ghcr.io/mindriddler/chatgpt-discord-bot
 
 
 

@@ -1,4 +1,4 @@
-name: remove_old_dev
+name: Remove old dev images
 
 on:
   pull_request:
