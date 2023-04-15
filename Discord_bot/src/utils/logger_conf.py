@@ -8,6 +8,7 @@ import loguru
 
 logger_config = read_config("logger")
 
+
 class DiscordBotLogger:
     def __init__(
         self,

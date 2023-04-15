@@ -21,6 +21,7 @@ load_dotenv()
 discord_token = os.getenv("DISCORD_TOKEN")
 discord_config = read_config("discord")
 
+
 class Bot(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -149,5 +150,5 @@ intents.message_content = True
 
 bot = Bot(intents=intents)
 
-#if __name__ == "__main__":
+# if __name__ == "__main__":
 #    bot.run(discord_token, log_handler=None)
