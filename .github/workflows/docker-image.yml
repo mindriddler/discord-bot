@@ -4,10 +4,6 @@ name: Docker Image CI DevTest
 on:
   pull_request:
 
-permissions:
-  packages: write
-  contents: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
