@@ -10,7 +10,7 @@
         "log_folder": "logs",
         "thread_auto_close_delay": 86400,
         "log_path_channel": "logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log",
-        "log_path_command": "logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log",
+        "log_path_command": "logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
     },
     "logger": {
         "log_level": "DEBUG",

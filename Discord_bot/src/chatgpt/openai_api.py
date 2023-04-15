@@ -11,6 +11,7 @@ openai_config = read_config("openai")
 
 
 def chatgpt_response(prompt):
+    print(openai_config)
     response = openai.ChatCompletion.create(
         model=openai_config["model"],
         messages=[
@@ -21,7 +22,7 @@ def chatgpt_response(prompt):
         max_tokens=openai_config["max_tokens"],
     )
     response_dict = response.choices
-    prompt_response = ""  # Initialize the variable with an empty string
+    prompt_response = ""
     if response_dict and len(response_dict) > 0:
         prompt_response = response_dict[0].message["content"]
     return prompt_response.strip()
