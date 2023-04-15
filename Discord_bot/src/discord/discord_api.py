@@ -60,15 +60,19 @@ class Bot(discord.Client):
                 if user_id not in self.dm_loggers:
                     dm_logger = self.bot_logger.get_dm_logger_for_user(user_id)
                     self.dm_loggers[user_id] = dm_logger
-                self.dm_loggers[user_id].user_id(f"Hello {message.author.name}, {DEFAULT_DM_MESSAGE}")
-
+                    self.dm_loggers[user_id].user_id(
+                        f"{self.user} >> {message.author}: Hello {message.author.name}, {DEFAULT_DM_MESSAGE}"
+                    )
+                self.dm_loggers[user_id].user_id(f"{message.author} >> {self.user}: {user_message}")
+                await message.channel.send(f"{bot_response}")
+                self.dm_loggers[user_id].user_id(f"{self.user} >> {message.author}: {bot_response}")
             if isinstance(message.channel, discord.Thread):
                 if user_message == "!dm":
                     self.logger.command(f"Command: {user_message}, User: {message.author}")
                     self.logger.info(f"Starting private conversation with {message.author}")
                     dm_channel = await message.author.create_dm()
                     await dm_channel.send(f"Hello {message.author.name}, {DEFAULT_DM_MESSAGE}")
-                    self.logger.info(f"{message.author} requesed DMs")
+                    self.logger.info(f"{message.author} requested DMs")
                     await message.channel.edit(archived=True, reason="Thread closed by bot.")
                     self.logger.info(f"Thread {message.channel.name} closed by {self.user}")
                 elif user_message == "!close_thread":
@@ -86,8 +90,6 @@ class Bot(discord.Client):
 
             if isinstance(message.channel, discord.Thread):
                 self.logger.channel(f"{message.author} >> {self.user}: {user_message}")
-            else:
-                self.logger.channel(f"{message.author} >> {self.user}: {user_message}")
         elif message.channel.id == self.dedicated_channel_id:
             await message.channel.send(f"{message.author.mention}: {bot_response}")
             self.logger.channel(f"{self.user} >> {message.author}: {bot_response}")
@@ -102,7 +104,6 @@ class Bot(discord.Client):
                         user_message = user_message.strip()
                     else:
                         command = user_message
-            print(command)
             if command == "!chatgpt":
                 if message.channel.permissions_for(message.guild.me).manage_threads:
                     dedicated_thread_channel_id = self.get_channel(self.dedicated_thread_channel_id)
