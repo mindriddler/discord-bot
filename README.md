@@ -16,7 +16,7 @@ I also wanted to experiment with setting up github actions.
 This is a discord bot that currently only has one functionality
 * ChatGPT
 
-### Coming features
+## Coming features
 
 TBD
 
@@ -37,12 +37,12 @@ You will need to create your own.
 3. Click on "Bot" in the menu on the left.
 4. Click on "Reset Token"
 5. Copy the token and save it somewhere safe, you're going to need it later
-6. Make sure that that you tick the 3 bottoms checks ([like this](bot_settings.jpg))
+6. Make sure that that you tick the 3 bottoms checks ([like this](misc/bot_settings.jpg))
 7. Click on "Add Bot" and confirm.
 8. Click on "OAuth2"
 9. Click on "URL Generator"
 10.  Select "bot" and "applications.commands"
-11. Make sure that that you set the correct permissions ([example](bot_permissions.jpg))
+11. Make sure that that you set the correct permissions ([example](misc/bot_permissions.jpg))
 12. Copy the link and paste it in your browser.
 13. Select the server you want to add the bot to.
 14. Click on "Authorize"
