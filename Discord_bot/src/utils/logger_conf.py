@@ -3,8 +3,10 @@ from __future__ import annotations
 import datetime
 import sys
 from functools import partialmethod
-from utils.utils import read_config
+
 import loguru
+
+from utils.utils import read_config
 
 logger_config = read_config("logger")
 

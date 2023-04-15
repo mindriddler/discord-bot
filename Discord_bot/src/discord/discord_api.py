@@ -6,15 +6,14 @@ from dotenv import load_dotenv
 import discord
 from chatgpt.openai_api import chatgpt_response
 from utils.logger_conf import DiscordBotLogger
-from utils.utils import (
-    read_config,
+from utils.utils import (  # remove_log_folder,
     ABOUT_STR,
     DEFAULT_DM_MESSAGE,
     DEFAULT_THREAD_MESSAGE,
     DISCLAIMER,
     HELP_STR,
     discordloghandler,
-    # remove_log_folder,
+    read_config,
 )
 
 load_dotenv()
