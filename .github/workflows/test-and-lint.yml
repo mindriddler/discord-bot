@@ -41,3 +41,7 @@ jobs:
       - name: Run unit tests with coverage
         run: |
           pytest
+
+      - name: Run iSort
+        run: |
+          isort src
