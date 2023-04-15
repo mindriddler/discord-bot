@@ -3,21 +3,22 @@ from __future__ import annotations
 import datetime
 import sys
 from functools import partialmethod
-
+from utils.utils import read_config
 import loguru
 
+logger_config = read_config("logger")
 
 class DiscordBotLogger:
     def __init__(
         self,
-        log_level: str = "DEBUG",
+        log_level: str = logger_config["log_level"],
         _log_path_channel: str = "logs/channel.log",
         _log_path_command: str = "logs/command.log",
         _log_path_dm: str = "logs/dm_logs/dm.log",
         _log_path: str = "logs/info.log",
-        log_rotation: int | str | datetime.timedelta | datetime.time = 100_000_000,
-        log_retention: str = "730 days",
-        log_compression_format: str = "zip",
+        log_rotation: int | str | datetime.timedelta | datetime.time = logger_config["log_rotation"],
+        log_retention: str = logger_config["log_retention"],
+        log_compression_format: str = logger_config["log_compression_format"],
         enqueue: bool = True,
     ) -> None:
         self.custom_levels = []

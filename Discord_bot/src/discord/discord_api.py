@@ -7,32 +7,31 @@ import discord
 from chatgpt.openai_api import chatgpt_response
 from utils.logger_conf import DiscordBotLogger
 from utils.utils import (
+    read_config,
     ABOUT_STR,
     DEFAULT_DM_MESSAGE,
     DEFAULT_THREAD_MESSAGE,
     DISCLAIMER,
     HELP_STR,
     discordloghandler,
-    remove_log_folder,
+    # remove_log_folder,
 )
 
 load_dotenv()
-
 discord_token = os.getenv("DISCORD_TOKEN")
-
+discord_config = read_config("discord")
 
 class Bot(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        remove_log_folder()
-        self.dedicated_channel_id = 1095796880706908160
-        self.dedicated_thread_channel_id = 1096123841870303292
-        self.channel_log_name = "channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
-        self.command_log_name = "command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
+        # remove_log_folder()
+        self.dedicated_channel_id: int = discord_config["dedicated_channel_id"]
+        self.dedicated_thread_channel_id: int = discord_config["dedicated_thread_channel_id"]
+        self.thread_auto_close_delay: int = discord_config["thread_auto_close_delay"]
         self.bot_logger = DiscordBotLogger(
             enqueue=True,
-            _log_path_channel=f"logs/{self.channel_log_name}",
-            _log_path_command=f"logs/{self.command_log_name}",
+            _log_path_channel=discord_config["log_path_channel"],
+            _log_path_command=discord_config["log_path_command"],
         )
         #
         self.logger = self.bot_logger.get_logger()
@@ -68,7 +67,7 @@ class Bot(discord.Client):
                     self.logger.info(f"Starting private conversation with {message.author}")
                     dm_channel = await message.author.create_dm()
                     await dm_channel.send(f"Hello {message.author.name}, {DEFAULT_DM_MESSAGE}")
-                    self.logger.info(f"{message.author} requesed DMs")
+                    self.logger.info(f"{message.author} requested DMs")
                     await message.channel.edit(archived=True, reason="Thread closed by bot.")
                     self.logger.info(f"Thread {message.channel.name} closed by {self.user}")
                 elif user_message == "!close_thread":
@@ -148,3 +147,6 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 bot = Bot(intents=intents)
+
+#if __name__ == "__main__":
+#    bot.run(discord_token, log_handler=None)

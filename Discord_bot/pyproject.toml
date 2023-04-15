@@ -54,6 +54,7 @@ markers = [
     "config_retry_limit:  load config for testing retry function with retry count limit",
 ]
 
+pythonpath = ["src"]
 log_cli = 1
 
 [tool.pylint.main]

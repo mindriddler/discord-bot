@@ -2,6 +2,7 @@ import logging
 import logging.handlers
 import os
 import shutil
+import json
 
 # CONSTANTS
 
@@ -38,12 +39,12 @@ Threads will be automatically closed after 24 hours.
 """
 
 
-def remove_log_folder():
-    if os.path.exists(LOG_FOLDER):
-        shutil.rmtree(LOG_FOLDER)
-    os.mkdir("logs")
-    with open("logs/.gitkeep", "w", encoding="utf-8") as file:
-        file.close()
+# def remove_log_folder():
+#     if os.path.exists(LOG_FOLDER):
+#         shutil.rmtree(LOG_FOLDER)
+#     os.mkdir("logs")
+#     with open("logs/.gitkeep", "w", encoding="utf-8") as file:
+#         file.close()
 
 
 def discordloghandler():
@@ -61,3 +62,13 @@ def discordloghandler():
     formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
+
+
+def read_config(section, file_path="src/config/config.json"):
+    with open(file_path, "r") as f:
+        config_data = json.load(f)
+
+    if section in config_data:
+        return config_data[section]
+    else:
+        raise ValueError(f"The section '{section}' was not found in the configuration file.")

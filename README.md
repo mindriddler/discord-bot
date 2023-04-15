@@ -20,6 +20,12 @@ This is a discord bot that currently only has one functionality
 
 TBD
 
+###
+
+If you have any ideas or suggestions for features, write to me on discord: `Wikipedia#5457`
+
+Or create a issue in the repository with the `enhancement` tag
+
 ## Installation
 
 ## Prerequisites
@@ -67,6 +73,7 @@ The file is located in the `src/config` folder.
 | openai.max_tokens  | The maximum number of tokens to generate for OpenAI model responses | 4000              |
 
 #### Discord settings
+##### Important The two top values NEEDS to be set, otherwise the bot will not listen to anything
 | Variable                            | What it is                                                                        | Default                                             |
 | ----------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------- |
 | discord.dedicated_channel_id        | The ID of the dedicated channel for the bot to listen to messages on              | None                                                |
