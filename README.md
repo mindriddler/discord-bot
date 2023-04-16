@@ -66,7 +66,7 @@ TBD
 
 ## Contributing
 
-If you want to contribute to this project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+If you want to contribute to this project, please read the [CONTRIBUTING](CONTRIBUTING.md) file.
 ## Installation
 
 ## Prerequisites
@@ -174,7 +174,7 @@ If you encounter any issues while setting up or using the ChatGPT Discord Bot, p
 
 ## License
 
-This project is licensed under the GNU License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the GNU License - see the [LICENSE](LICENSE.md) file for details
 
 ## Acknowledgments
 
