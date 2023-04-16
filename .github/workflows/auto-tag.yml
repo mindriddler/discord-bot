@@ -12,10 +12,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Bump version and push tag
-      id: bump_version
+    - name: Configure Git
+      run: git config --global --add safe.directory /github/workspace
+    - name: Run GitHub Tag Action
       uses: anothrNick/github-tag-action@1.26.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
-        DEFAULT_BUMP: patch
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        with_v: true
+        default_bump: patch
+
