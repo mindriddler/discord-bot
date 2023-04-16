@@ -1,8 +1,8 @@
-# import os
 # import shutil
-import json
 import logging
 import logging.handlers
+import os
+import json
 
 # CONSTANTS
 
@@ -64,7 +64,14 @@ def discordloghandler():
     logger.addHandler(handler)
 
 
-def read_config(section, file_path="src/config/config.json"):
+def read_config(section, file_path=None):
+    if file_path is None:
+        # Get the directory of the current script/module
+        script_dir = os.path.dirname(os.path.realpath(__file__))
+
+        # Construct the config file path relative to the script/module directory
+        file_path = os.path.join(script_dir, "..", "config", "config.json")
+
     with open(file_path, "r") as f:
         config_data = json.load(f)
 
