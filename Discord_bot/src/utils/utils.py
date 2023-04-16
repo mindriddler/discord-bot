@@ -64,7 +64,7 @@ def discordloghandler():
     logger.addHandler(handler)
 
 
-def read_config(section, file_path="src/config/config.json"):
+def read_config(section, file_path="config/config.json"):
     with open(file_path, "r") as f:
         config_data = json.load(f)
 
