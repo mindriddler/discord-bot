@@ -9,6 +9,7 @@
 - [Table of Contents](#table-of-contents)
   - [Background](#background)
   - [Description](#description)
+  - [Usage](#usage)
   - [Coming features](#coming-features)
   - [Contributing](#contributing)
   - [Installation](#installation)
@@ -20,15 +21,13 @@
       - [OpenAI settings](#openai-settings)
       - [Discord settings](#discord-settings)
       - [Logger settings](#logger-settings)
-      - [Running the bot with Docker](#running-the-bot-with-docker)
-    - [Using pre-built Docker images from GHCR](#using-pre-built-docker-images-from-ghcr)
+    - [Running the bot with Docker](#running-the-bot-with-docker)
+      - [Using pre-built Docker images from GHCR](#using-pre-built-docker-images-from-ghcr)
+  - [Troubleshooting](#troubleshooting)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
   - [Contact](#contact)
   - [Disclaimer](#disclaimer)
-
-
-
 
 ## Background
 
@@ -40,6 +39,26 @@ I also wanted to experiment with setting up github actions.
 
 This is a discord bot that currently only has one functionality
 * ChatGPT
+
+## Usage
+
+Once the ChatGPT Discord Bot is running in your server, you can interact with it using the following methods:
+
+1. Use a specific command: `!command_name arguments`
+
+Commands available:
+- `!chatgpt`: The bot will create a thread and have your conversation there.
+- `!chatgpt <message>`: Interact with ChatGPT using the provided message.
+- `!dm`: Send a direct message to the specified user with the provided message.
+- `!about`: Get information about the ChatGPT Discord Bot.
+- `!help`: Display a list of available commands and their usage.
+
+Example:
+
+User: `@YourBotName What is the capital of France?`
+Bot: `The capital of France is Paris.`
+
+Note: Replace `YourBotName` with the actual name of your bot.
 
 ## Coming features
 
@@ -117,7 +136,7 @@ The file is located in the `src/config` folder.
 
 You can change these values to whatever (as long as they're valid) you want and the bot will respect them
 
-#### Running the bot with Docker
+### Running the bot with Docker
 1. Clone the repo
 2. Create a file called `.env` in the root of the project
 3. Add the following lines to the file:
@@ -128,7 +147,7 @@ DISCORD_TOKEN=<your bot token>
 4. Change your working directory to `Docker`
 5. Run `docker-compose up -d`
 
-### Using pre-built Docker images from GHCR
+#### Using pre-built Docker images from GHCR
 If you prefer not to build the Docker image yourself, you can pull the pre-built images from GitHub Container Registry (GHCR). However, you will still need to provide your own OpenAI API key and Discord bot token.
 
 To pull the images from GHCR, use the following command:
@@ -144,6 +163,14 @@ docker run -d --name chatgpt-discord-bot --env-file .env ghcr.io/mindriddler/cha
 ```
 
 Replace `<tag>` with the same tag used when pulling the image.
+
+## Troubleshooting
+
+If you encounter any issues while setting up or using the ChatGPT Discord Bot, please consult the following resources:
+
+1. Check the [OpenAI API documentation](https://beta.openai.com/docs/) and ensure your API key is set up correctly.
+2. Review the [discord.py documentation](https://discordpy.readthedocs.io/en/stable/) for possible issues related to Discord interactions.
+3. If you still need help, please create an issue on this repository or contact me through one of the methods provided in the "Contact" section of this README.
 
 ## License
 
