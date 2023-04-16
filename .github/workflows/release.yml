@@ -2,8 +2,8 @@ name: Release image
 
 on:
   push:
-    branches:
-      - "main"
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
@@ -12,24 +12,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-
-    - name: Bump version and push tag
-      id: create_new_tag
-      uses: anothrNick/github-tag-action@1.27.0
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        default_bump: patch
-
-    - name: Create GitHub release
-      id: create_release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ steps.create_new_tag.outputs.new_tag }}
-        name: Release ${{ steps.create_new_tag.outputs.new_tag }}
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Login to Github Container Registry
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a #v2.1.0
@@ -43,10 +25,17 @@ jobs:
         export DOCKER_BUILDKIT=1
         docker build --build-arg GITHUB_ACTION=true \
           --file ./Docker/Dockerfile \
-          --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ steps.create_new_tag.outputs.new_tag }} \
+          --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ github.ref_name }} \
           --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest \
           --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ github.sha }} .
 
     - name: Push Docker Image
       run: |
         docker image push --all-tags ghcr.io/mindriddler/chatgpt-discord-bot
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
