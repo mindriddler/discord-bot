@@ -2,8 +2,33 @@
 [![Release image](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/release.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/release.yml)
 [![Dev image](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/dev.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/dev.yml)
 [![Remove old Dev images](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/remove-old-dev-images.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/remove-old-dev-images.yml.yml)
-
 # ChatGPT Discord Bot
+# Table of Contents
+
+- [ChatGPT Discord Bot](#chatgpt-discord-bot)
+- [Table of Contents](#table-of-contents)
+  - [Background](#background)
+  - [Description](#description)
+  - [Coming features](#coming-features)
+  - [Contributing](#contributing)
+  - [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Setup](#setup)
+    - [Creating a discord bot](#creating-a-discord-bot)
+    - [Creating an OpenAI API key](#creating-an-openai-api-key)
+    - [config.json](#configjson)
+      - [OpenAI settings](#openai-settings)
+      - [Discord settings](#discord-settings)
+      - [Logger settings](#logger-settings)
+      - [Running the bot with Docker](#running-the-bot-with-docker)
+    - [Using pre-built Docker images from GHCR](#using-pre-built-docker-images-from-ghcr)
+  - [License](#license)
+  - [Acknowledgments](#acknowledgments)
+  - [Contact](#contact)
+  - [Disclaimer](#disclaimer)
+
+
+
 
 ## Background
 
@@ -20,12 +45,9 @@ This is a discord bot that currently only has one functionality
 
 TBD
 
-###
+## Contributing
 
-If you have any ideas or suggestions for features, write to me on discord: `Wikipedia#5457`
-
-Or create a issue in the repository with the `enhancement` tag
-
+If you want to contribute to this project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 ## Installation
 
 ## Prerequisites
@@ -73,7 +95,9 @@ The file is located in the `src/config` folder.
 | openai.max_tokens  | The maximum number of tokens to generate for OpenAI model responses | 4000              |
 
 #### Discord settings
-##### Important The two top values NEEDS to be set, otherwise the bot will not listen to anything
+
+<h5> The two top values NEEDS to be set, otherwise the bot will not listen to anything </h5>
+
 | Variable                            | What it is                                                                        | Default                                             |
 | ----------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------- |
 | discord.dedicated_channel_id        | The ID of the dedicated channel for the bot to listen to messages on              | None                                                |
@@ -93,17 +117,56 @@ The file is located in the `src/config` folder.
 
 You can change these values to whatever (as long as they're valid) you want and the bot will respect them
 
-#### Running the bot
+#### Running the bot with Docker
 1. Clone the repo
 2. Create a file called `.env` in the root of the project
 3. Add the following lines to the file:
-```
+```bash
 OPENAI_API_KEY=<your api key>
 DISCORD_TOKEN=<your bot token>
 ```
-4. Run `docker-compose up -d`
+4. Change your working directory to `Docker`
+5. Run `docker-compose up -d`
 
+### Using pre-built Docker images from GHCR
+If you prefer not to build the Docker image yourself, you can pull the pre-built images from GitHub Container Registry (GHCR). However, you will still need to provide your own OpenAI API key and Discord bot token.
 
+To pull the images from GHCR, use the following command:
 
+```bash
+docker pull ghcr.io/mindriddler/chatgpt-discord-bot:<tag>
+```
+Replace `<tag>` with the appropriate tag for the version you want to use (e.g., `latest`).
 
+After pulling the image, you can run the container using the following command:
+```bash
+docker run -d --name chatgpt-discord-bot --env-file .env ghcr.io/mindriddler/chatgpt-discord-bot:<tag>
+```
+
+Replace `<tag>` with the same tag used when pulling the image.
+
+## License
+
+This project is licensed under the GNU License - see the [LICENSE](LICENSE) file for details
+
+## Acknowledgments
+
+* [OpenAI](https://openai.com/)
+* [Discord](https://discord.com/)
+* [Docker](https://www.docker.com/)
+* [Python](https://www.python.org/)
+* [discord.py](https://discordpy.readthedocs.io/en/stable/)
+
+## Contact
+
+If you want to contact me you can reach me at 
+
+* Discord: `Wikipedia#5457`
+* Email: `fredrikmagnusson10@live.se`
+* Github: [mindriddler](https://github.com/mindriddler)
+* LinkedIn: [Link](https://www.linkedin.com/in/fredrik-m/)
+
+## Disclaimer
+
+This project is not affiliated with OpenAI or Discord in any way.
 
