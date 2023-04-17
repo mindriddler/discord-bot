@@ -1,4 +1,4 @@
-name: Auto Tag
+name: Auto Tag and release
 
 on:
   push:
@@ -20,4 +20,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
         DEFAULT_BUMP: patch
-
+    - name: Release
+      uses: softprops/action-gh-release@v0.1.15
+      with:
+        tag_name: ${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
