@@ -54,10 +54,10 @@ Commands available:
 - `!help`: Display a list of available commands and their usage.
 
 Example:
-
+```
 User: `!chatgpt What is the capital of France?`
 Bot: `@Sender: The capital of France is Paris.`
-
+```
 ## Coming features
 
 TBD
