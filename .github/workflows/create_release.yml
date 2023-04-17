@@ -35,6 +35,9 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.latest_tag.outputs
-
-
+          tag_name: ${{ steps.latest_tag.outputs.result }}
+          body_path: ${{ github.workspace }}/CHANGELOG.md
+          token: ${{ secrets.WORKFLOW }}
+          generate_release_notes: true
+        env:
+          GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
