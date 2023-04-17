@@ -2,7 +2,7 @@ name: Release - Build and push image
 
 on:
   workflow_run:
-    workflows: ["Create release and tag"]
+    workflows: ["Create release and tags"]
     types:
       - completed
 
