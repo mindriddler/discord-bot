@@ -5,7 +5,11 @@ on:
     workflows: ["tag bump"]
     types:
       - completed
-
+      
+permissions:
+  contents: write
+  discussions: write
+  
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,14 +33,13 @@ jobs:
             const tagName = data[0].name.replace(/"/g, '');
             console.log(tagName);
             return tagName;
-      - name: Generate Changelog
-        run: git-chglog --tag-filter-pattern '^v' --next-tag ${{ steps.latest_tag.outputs.result }} > ${{ github.workspace }}/CHANGELOG.md
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.latest_tag.outputs.result }}
           body_path: ${{ github.workspace }}/CHANGELOG.md
           token: ${{ secrets.WORKFLOW }}
+          generate_release_notes: true
         env:
           GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
 
