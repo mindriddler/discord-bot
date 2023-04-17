@@ -1,9 +1,10 @@
-name: Release image
+name: Release - Build and push image
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_run:
+    workflows: ["Create release and tasg"]
+    types:
+      - completed
 
 jobs:
   build:
