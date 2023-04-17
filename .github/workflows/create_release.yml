@@ -16,11 +16,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Setup Git Changelog
-        run: |
-          wget https://github.com/git-chglog/git-chglog/releases/download/0.15.0/git-chglog-linux-amd64 -O git-chglog
-          chmod +x git-chglog
-          sudo mv git-chglog /usr/local/bin/
       - name: Get latest tag
         uses: actions/github-script@v4
         id: latest_tag
