@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Setup Git Changelog
+        run: |
+          wget https://github.com/git-chglog/git-chglog/releases/download/0.15.0/git-chglog-linux-amd64 -O git-chglog
+          chmod +x git-chglog
+          sudo mv git-chglog /usr/local/bin/
       - name: Get latest tag
         uses: actions/github-script@v4
         id: latest_tag
@@ -21,18 +26,20 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-            console.log(data[0].name);
-            return data[0].name;
+            const tagName = data[0].name.replace(/"/g, '');
+            console.log(tagName);
+            return tagName;
       - name: Generate Changelog
-        run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.md
+        run: git-chglog --tag-filter-pattern '^v' --next-tag ${{ steps.latest_tag.outputs.result }} > ${{ github.workspace }}/CHANGELOG.md
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.latest_tag.outputs.result }}
-          body_path: ${{ github.workspace }}-CHANGELOG.md
+          body_path: ${{ github.workspace }}/CHANGELOG.md
           token: ${{ secrets.WORKFLOW }}
         env:
           GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
+
 
 
 
