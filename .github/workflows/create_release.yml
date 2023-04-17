@@ -25,22 +25,16 @@ jobs:
           DEFAULT_BUMP: patch
       - name: Get latest tag
         id: latest_tag
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const { data: tags } = await github.rest.repos.listTags({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            const tagName = tags[0].name;
-            return tagName;
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST_TAG=$(git describe --tags --abbrev=0)
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.latest_tag.outputs.result }}
+          tag_name: ${{ env.LATEST_TAG }}
           body_path: ${{ github.workspace }}/CHANGELOG.md
           token: ${{ secrets.WORKFLOW }}
           generate_release_notes: true
         env:
           GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
+
