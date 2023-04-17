@@ -2,7 +2,7 @@ name: Set test status
 
 on:
   workflow_run:
-    workflows: ["Dev image"]
+    workflows: ["Dev - Build and push image"]
     types:
       - completed
 
