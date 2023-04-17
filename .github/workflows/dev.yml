@@ -1,4 +1,4 @@
-name: Dev image
+name: Dev - Build and push image
 
 on:
   pull_request:
