@@ -11,18 +11,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
+      - name: Get latest tag
+        uses: actions/github-script@v4
+        id: latest_tag
+        with:
+          script: |
+            const { data } = await github.repos.listTags({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            console.log(data[0].name);
+            return data[0].name;
       - name: Generate Changelog
         run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.md
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
+          tag_name: ${{ steps.latest_tag.outputs.result }}
           body_path: ${{ github.workspace }}-CHANGELOG.md
-          # note you'll typically need to create a personal access token
-          # with permissions to create releases in the other repo
           token: ${{ secrets.WORKFLOW }}
         env:
           GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
+
 
 
