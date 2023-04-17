@@ -32,10 +32,3 @@ jobs:
     - name: Push Docker Image
       run: |
         docker image push --all-tags ghcr.io/mindriddler/chatgpt-discord-bot
-
-    - name: Release
-      uses: softprops/action-gh-release@v0.1.15
-      with:
-        tag_name: ${{ github.ref_name }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
