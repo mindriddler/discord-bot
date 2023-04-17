@@ -16,7 +16,7 @@ jobs:
       run: git config --global --add safe.directory /github/workspace
     - name: Run GitHub Tag Action
       uses: anothrNick/github-tag-action@1.62.0
-      with:
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         WITH_V: true
         DEFAULT_BUMP: minor
