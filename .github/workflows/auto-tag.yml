@@ -1,22 +1,22 @@
-name: Tag bump
+# name: Tag bump
 
-on:
-  push:
-    branches:
-      - main
+# on:
+#   push:
+#     branches:
+#       - main
 
-jobs:
-  auto-tag:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+# jobs:
+#   auto-tag:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v3
 
-    - name: Configure Git
-      run: git config --global --add safe.directory /github/workspace
-    - name: Run GitHub Tag Action
-      uses: anothrNick/github-tag-action@1.62.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true
-        DEFAULT_BUMP: patch
+#     - name: Configure Git
+#       run: git config --global --add safe.directory /github/workspace
+#     - name: Run GitHub Tag Action
+#       uses: anothrNick/github-tag-action@1.62.0
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         WITH_V: true
+#         DEFAULT_BUMP: patch
