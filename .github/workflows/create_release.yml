@@ -19,9 +19,7 @@ jobs:
 
       - name: Get latest tag
         id: latest_tag
-        uses: WyriHaximus/github-action-get-previous-tag@v1
-        with:
-          fallback: v0.0.0
+        uses: dawidd6/action-get-tag@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -34,6 +32,7 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
+
 
 
 
