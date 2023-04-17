@@ -20,19 +20,27 @@ jobs:
         registry: ghcr.io
         username: mindriddler
         password: ${{ secrets.GITHUB_TOKEN }}
-    - name: Get latest tag
-      id: latest_tag
-      run: |
-        LATEST_TAG=$(git describe --tags --abbrev=0)
-        echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+    - name: Get previous tag
+      id: previoustag
+      uses: "WyriHaximus/github-action-get-previous-tag@v1"
     - name: Build & Tag Docker Image
       run: |
         export DOCKER_BUILDKIT=1
         docker build --build-arg GITHUB_ACTION=true \
           --file ./Docker/Dockerfile \
-          --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ env.LATEST_TAG }} \
+          --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ steps.previoustag.outputs.tag }} \
           --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest .
 
     - name: Push Docker Image
       run: |
         docker image push --all-tags ghcr.io/mindriddler/chatgpt-discord-bot
+    
+    - name: Delete all untagged images
+      uses: actions/delete-package-versions@v4
+      with:
+        owner: ${{ github.repository_owner }}
+        package-name: "chatgpt-discord-bot-dev"
+        package-type: "container"
+        token: ${{ secrets.GITHUB_TOKEN }}
+        min-versions-to-keep: 0
+        delete-only-untagged-versions: "true"
