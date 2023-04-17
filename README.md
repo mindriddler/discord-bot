@@ -55,8 +55,8 @@ Commands available:
 
 Example:
 ```
-Sender: `!chatgpt What is the capital of France?`
-Bot: `@Sender: The capital of France is Paris.`
+Sender: !chatgpt What is the capital of France?
+Bot: @Sender: The capital of France is Paris.
 ```
 ## Coming features
 
