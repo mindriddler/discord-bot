@@ -28,16 +28,13 @@ jobs:
               repo: context.repo.repo,
             });
             const tag = tags.find(t => t.commit.sha === commitSha);
-            return tag ? tag.name : "";
+            const tagName = tag ? tag.name.replace(/"/g, '') : "";
+            return tagName;
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.latest_tag.outputs.result }}
-          body_path: ${{ github.workspace }}/CHANGELOG.md
-          token: ${{ secrets.WORKFLOW }}
-          generate_release_notes: true
-        env:
-          GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
+          tag_name: ${{ steps.latest_tag.outputs
+
 
