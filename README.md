@@ -123,8 +123,8 @@ The file is located in the `src/config` folder.
 | discord.dedicated_thread_channel_id | The ID of the dedicated thread channel for the bot to listen to messages on       | None                                                |
 | discord.log_folder                  | The folder where logs will be stored                                              | logs                                                |
 | discord.thread_auto_close_delay     | The time in seconds after which an inactive thread should be automatically closed | 86400                                               |
-| discord.log_path_channel            | The path for channel logs                                                         | logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log |
-| discord.log_path_command            | The path for command logs                                                         | logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log |
+| discord.log_path_channel            | The path for channel logs                                                         | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
+| discord.log_path_command            | The path for command logs                                                         | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
 
 #### Logger settings
 | Variable                      | What it is                                             | Default   |
