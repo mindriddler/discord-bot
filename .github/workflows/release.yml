@@ -20,14 +20,18 @@ jobs:
         registry: ghcr.io
         username: mindriddler
         password: ${{ secrets.GITHUB_TOKEN }}
-
+    - name: Get latest tag
+      id: latest_tag
+      run: |
+        LATEST_TAG=$(git describe --tags --abbrev=0)
+        echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
     - name: Build & Tag Docker Image
       run: |
         export DOCKER_BUILDKIT=1
         docker build --build-arg GITHUB_ACTION=true \
           --file ./Docker/Dockerfile \
-          --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ github.ref_name }} \
-          --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest \ .
+          --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ env.LATEST_TAG }} \
+          --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest .
 
     - name: Push Docker Image
       run: |
