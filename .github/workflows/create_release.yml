@@ -17,22 +17,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Get current commit SHA
-        id: current_sha
-        uses: jwalton/gh-find-current-ref@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get latest tag
+      - name: Get commit SHA and latest tag
         id: latest_tag
         uses: actions/github-script@v5
         with:
           script: |
+            const commitSha = context.payload.workflow_run.head_sha;
             const { data: tags } = await github.rest.repos.listTags({
               owner: context.repo.owner,
               repo: context.repo.repo,
             });
-            const tag = tags.find(t => t.commit.sha === "${{ steps.current_sha.outputs.ref }}");
+            const tag = tags.find(t => t.commit.sha === commitSha);
             return tag ? tag.name : "";
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -45,3 +40,4 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
+
