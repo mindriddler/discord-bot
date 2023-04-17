@@ -13,14 +13,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.latest_tag.outputs.result }}
-          body_path: ${{ github.workspace }}/CHANGELOG.md
-          token: ${{ secrets.WORKFLOW }}
-          generate_release_notes: true
-        env:
-          GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Configure Git
+      run: git config --global --add safe.directory /github/workspace
+    - name: tag
+      uses: anothrNick/github-tag-action@1.62.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.tag.outputs.result }}
+        body_path: ${{ github.workspace }}/CHANGELOG.md
+        token: ${{ secrets.WORKFLOW }}
+        generate_release_notes: true
+      env:
+        GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
