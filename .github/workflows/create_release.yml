@@ -15,22 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Get commit SHA and latest tag
-        id: latest_tag
-        uses: actions/github-script@v5
-        with:
-          script: |
-            const commitSha = context.payload.workflow_run.head_sha;
-            const { data: tags } = await github.rest.repos.listTags({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-            });
-            const tag = tags.find(t => t.commit.sha === commitSha);
-            const tagName = tag ? tag.name.replace(/"/g, '') : "";
-            return tagName;
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
