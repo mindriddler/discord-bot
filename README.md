@@ -55,10 +55,8 @@ Commands available:
 
 Example:
 
-User: `@YourBotName What is the capital of France?`
-Bot: `The capital of France is Paris.`
-
-Note: Replace `YourBotName` with the actual name of your bot.
+User: `!chatgpt What is the capital of France?`
+Bot: `@Sender: The capital of France is Paris.`
 
 ## Coming features
 
