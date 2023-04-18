@@ -22,7 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          DEFAULT_BUMP: patch
+          DEFAULT_BUMP: minor
       - name: Get latest tag
         id: latest_tag
         run: |
@@ -37,4 +37,3 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
-

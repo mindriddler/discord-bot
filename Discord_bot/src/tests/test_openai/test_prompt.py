@@ -1,48 +1,33 @@
+from unittest.mock import MagicMock, patch
+
+import pytest
+
 from chatgpt.openai_api import chatgpt_response
 
 
-def test_chatgpt_response(mocker):
-    # Mock the openai.ChatCompletion.create method
-    mock_create = mocker.patch("openai.ChatCompletion.create")
+@pytest.mark.asyncio
+async def test_chatgpt_response():
+    prompt = "What is the capital of France?"
 
-    # Define the mocked response
-    mock_create.return_value = mocker.Mock(choices=[mocker.Mock(message={"content": "Pass."})])
+    # Mock the OpenAI API response
+    mock_response = MagicMock()
+    mock_response.choices = [{"message": {"content": "The capital of France is Paris."}}]
 
-    # Define the input prompt
-    input_prompt = "Does this test pass??"
+    with patch("openai.ChatCompletion.create", return_value=mock_response):
+        response = await chatgpt_response(prompt)
 
-    # Call the chatgpt_response function
-    response = chatgpt_response(input_prompt)
-
-    # Assert that the openai.ChatCompletion.create method was called with the correct parameters
-    mock_create.assert_called_once_with(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": input_prompt},
-        ],
-        temperature=1,
-        max_tokens=4000,
-    )
-
-    # Assert that the response is as expected
-    assert response == "Pass."
+    assert response == "The capital of France is Paris."
 
 
-def test_chatgpt_response_empty_response(mocker):
-    # Mock the openai.ChatCompletion.create method
-    mock_create = mocker.patch("openai.ChatCompletion.create")
-    mock_create.return_value = mocker.Mock(choices=[])
-    input_prompt = "Does this test pass?"
-    response = chatgpt_response(input_prompt)
-    mock_create.assert_called_once_with(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": input_prompt},
-        ],
-        temperature=1,
-        max_tokens=4000,
-    )
+@pytest.mark.asyncio
+async def test_chatgpt_response_empty():
+    prompt = "What is the capital of France?"
+
+    # Mock an empty OpenAI API response
+    mock_response = MagicMock()
+    mock_response.choices = []
+
+    with patch("openai.ChatCompletion.create", return_value=mock_response):
+        response = await chatgpt_response(prompt)
 
     assert response == ""

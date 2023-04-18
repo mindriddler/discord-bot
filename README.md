@@ -21,6 +21,7 @@
       - [OpenAI settings](#openai-settings)
       - [Discord settings](#discord-settings)
       - [Logger settings](#logger-settings)
+      - [Schedule settings](#schedule-settings)
     - [Running the bot with Docker](#running-the-bot-with-docker)
       - [Using pre-built Docker images from GHCR](#using-pre-built-docker-images-from-ghcr)
   - [Troubleshooting](#troubleshooting)
@@ -82,12 +83,12 @@ You will need to create your own.
 3. Click on "Bot" in the menu on the left.
 4. Click on "Reset Token"
 5. Copy the token and save it somewhere safe, you're going to need it later
-6. Make sure that that you tick the 3 bottoms checks ([like this](https://github.com/mindriddler/chatgpt-discord-bot/blob/16-write-readmemd/misc/bot_settings.jpg?raw=true))
+6. Make sure that that you tick the 3 bottoms checks ([like this](https://github.com/mindriddler/chatgpt-discord-bot/blob/16-write-readmemd/assets/bot_settings.jpg?raw=true))
 7. Click on "Add Bot" and confirm.
 8. Click on "OAuth2"
 9. Click on "URL Generator"
 10.  Select "bot" and "applications.commands"
-11. Make sure that that you set the correct permissions ([example](https://github.com/mindriddler/chatgpt-discord-bot/blob/16-write-readmemd/misc/bot_permissions.jpg?raw=true))
+11. Make sure that that you set the correct permissions ([example](https://github.com/mindriddler/chatgpt-discord-bot/blob/16-write-readmemd/assets/bot_permissions.jpg?raw=true))
 12. Copy the link and paste it in your browser.
 13. Select the server you want to add the bot to.
 14. Click on "Authorize"
@@ -115,12 +116,12 @@ The file is located in the `src/config` folder.
 
 <h5> The two top values NEEDS to be set, otherwise the bot will not listen to anything </h5>
 
-| Variable                            | What it is                                                                        | Default                                             |
-| ----------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------- |
-| discord.dedicated_channel_id        | The ID of the dedicated channel for the bot to listen to messages on              | None                                                |
-| discord.dedicated_thread_channel_id | The ID of the dedicated thread channel for the bot to listen to messages on       | None                                                |
-| discord.log_folder                  | The folder where logs will be stored                                              | logs                                                |
-| discord.thread_auto_close_delay     | The time in seconds after which an inactive thread should be automatically closed | 86400                                               |
+| Variable                            | What it is                                                                        | Default                                                                                              |
+| ----------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| discord.dedicated_channel_id        | The ID of the dedicated channel for the bot to listen to messages on              | None                                                                                                 |
+| discord.dedicated_thread_channel_id | The ID of the dedicated thread channel for the bot to listen to messages on       | None                                                                                                 |
+| discord.log_folder                  | The folder where logs will be stored                                              | logs                                                                                                 |
+| discord.thread_auto_close_delay     | The time in seconds after which an inactive thread should be automatically closed | 86400                                                                                                |
 | discord.log_path_channel            | The path for channel logs                                                         | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
 | discord.log_path_command            | The path for command logs                                                         | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
 
@@ -132,11 +133,16 @@ The file is located in the `src/config` folder.
 | logger.log_retention          | The length of time to retain log files for             | 730 days  |
 | logger.log_compression_format | The format of the compressed log files                 | zip       |
 
+#### Schedule settings
+| Variable     | What it is                 | Default |
+| ------------ | -------------------------- | ------- |
+| schedule.url | URL to your class schedule | None    |
+
 You can change these values to whatever (as long as they're valid) you want and the bot will respect them
 
 ### Running the bot with Docker
 1. Clone the repo
-2. Create a file called `.env` in the root of the project
+2. Rename the file called `.env.template` in the root of the project to `.env`
 3. Add the following lines to the file:
 ```bash
 OPENAI_API_KEY=<your api key>

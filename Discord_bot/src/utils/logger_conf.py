@@ -1,3 +1,5 @@
+# DiscordBotLogger
+
 from __future__ import annotations
 
 import datetime
@@ -12,6 +14,8 @@ logger_config = read_config("logger")
 
 
 class DiscordBotLogger:
+    _logger = None  # Add this line
+
     def __init__(
         self,
         log_level: str = logger_config["log_level"],
@@ -37,11 +41,11 @@ class DiscordBotLogger:
 
     def _formatter(self, message: dict) -> str:
         return (
-            "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green>"
-            "| <level>{level}</level> | "
-            "<cyan>{name}</cyan>:"
+            "<green>[{time:YYYY-MM-DD HH:mm:ss}] </green>"
+            "<level>[{level:<8}] </level>"
+            "<cyan>{name}</cyan>."
             "<cyan>{function}</cyan>:"
-            "<cyan>{line}</cyan> - "
+            "<cyan>{line}</cyan>: "
             "<level>{message}</level>"
             "\n<red>{exception}</red>"
         )
@@ -54,56 +58,61 @@ class DiscordBotLogger:
     def get_dm_logger_for_user(self, user_id: str) -> loguru.Logger:
         dm_log_path = f"logs/dm_logs/{user_id}.log"
         logger = loguru.logger
-        if not hasattr(loguru.logger.__class__, f"{user_id}"):
-            loguru.logger.__class__.user_id = partialmethod(loguru.logger.__class__.log, f"{user_id}")
-            self.add_custom_level(f"{user_id}", level=5, color="<magenta>", icon="-")
+        custom_level_name = f"{user_id}"
+        if not hasattr(loguru.logger.__class__, custom_level_name):
+            self.add_custom_level(custom_level_name, level=5, color="<magenta>", icon="-")
+            loguru.logger.__class__.user_id = partialmethod(loguru.logger.__class__.log, custom_level_name)
 
         logger.add(
             dm_log_path,
             format=self._formatter,
-            level=user_id,
+            level=custom_level_name,
             rotation=self.rotation,
             retention=self.retention,
             compression=self.compression_format,
             enqueue=self.enqueue,
-            filter=lambda record: record["level"].name == user_id,
+            filter=lambda record: record["level"].name == custom_level_name,
         )
 
         logger.info(f"Initializing DM logger for user {user_id}")
         return logger
 
     def get_logger(self) -> loguru.Logger:
-        logger = loguru.logger
-        logger.remove()
-        if not hasattr(loguru.logger.__class__, "command"):
-            loguru.logger.__class__.command = partialmethod(loguru.logger.__class__.log, "command")
-            logger.level("command", no=10, color="<green>", icon="-")
-        if not hasattr(loguru.logger.__class__, "channel"):
-            loguru.logger.__class__.channel = partialmethod(loguru.logger.__class__.log, "channel")
-            logger.level("channel", no=15, color="<green>", icon="-")
-        # Add new handler with custom formatter
-        logger.add(self.log_path, format=self._formatter, level=self.log_level)
-        logger.add(sys.stdout, format=self._formatter, level=self.log_level)
-        logger.add(
-            self.log_path_command,
-            format=self._formatter,
-            level="command",
-            rotation=self.rotation,
-            retention=self.retention,
-            compression=self.compression_format,
-            enqueue=self.enqueue,
-            filter=lambda record: record["level"].name == "command",
-        )
-        logger.add(
-            self.log_path_channel,
-            format=self._formatter,
-            level="channel",
-            rotation=self.rotation,
-            retention=self.retention,
-            compression=self.compression_format,
-            enqueue=self.enqueue,
-            filter=lambda record: record["level"].name == "channel",
-        )
+        if DiscordBotLogger._logger is None:  # Add this line
+            logger = loguru.logger
+            logger.remove()
+            if not hasattr(loguru.logger.__class__, "COMMAND"):
+                loguru.logger.__class__.command = partialmethod(loguru.logger.__class__.log, "COMMAND")
+                logger.level("COMMAND", no=10, color="<green>", icon="-")
+            if not hasattr(loguru.logger.__class__, "CHANNEL"):
+                loguru.logger.__class__.channel = partialmethod(loguru.logger.__class__.log, "CHANNEL")
+                logger.level("CHANNEL", no=15, color="<green>", icon="-")
 
-        logger.info("Initializing logger")
-        return logger
+            # Add new handler with custom formatter
+            logger.add(self.log_path, format=self._formatter, level=self.log_level)
+            logger.add(sys.stdout, format=self._formatter, level=self.log_level)
+            logger.add(
+                self.log_path_command,
+                format=self._formatter,
+                level="COMMAND",
+                rotation=self.rotation,
+                retention=self.retention,
+                compression=self.compression_format,
+                enqueue=self.enqueue,
+                filter=lambda record: record["level"].name == "COMMAND",
+            )
+            logger.add(
+                self.log_path_channel,
+                format=self._formatter,
+                level="CHANNEL",
+                rotation=self.rotation,
+                retention=self.retention,
+                compression=self.compression_format,
+                enqueue=self.enqueue,
+                filter=lambda record: record["level"].name == "CHANNEL",
+            )
+
+            logger.info("Initializing logger")
+            DiscordBotLogger._logger = logger
+
+        return DiscordBotLogger._logger
