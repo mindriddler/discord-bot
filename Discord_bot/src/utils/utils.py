@@ -1,8 +1,8 @@
 # import shutil
+import json
 import logging
 import logging.handlers
 import os
-import json
 
 # CONSTANTS
 
@@ -38,6 +38,14 @@ I do not have a memory yet. I wont be able to remember our conversation.
 Threads will be automatically closed after 24 hours.
 """
 
+COMMAND_DESCRIPTIONS = {
+    "avatar": "Send något",
+    "chatgpt": "Ask ChatGPT a question of your choice and you will get a answer back.",
+    "help": "Show a small help section with available commands.",
+    "about": "Show a small about section for the bot.",
+    "dm": "ChatGPT will start DMs with you.",
+}
+
 
 # def remove_log_folder():
 #     if os.path.exists(LOG_FOLDER):
@@ -45,6 +53,19 @@ Threads will be automatically closed after 24 hours.
 #     os.mkdir("logs")
 #     with open("logs/.gitkeep", "w", encoding="utf-8") as file:
 #         file.close()
+def split_message(message, max_length=2000):
+    if len(message) <= max_length:
+        return [message]
+    messages = []
+    current_message = ""
+    for word in message.split():
+        if len(current_message) + len(word) + 1 <= max_length:
+            current_message += f" {word}"
+        else:
+            messages.append(current_message)
+            current_message = f"{word}"
+    messages.append(current_message)
+    return messages
 
 
 def discordloghandler():
@@ -72,10 +93,9 @@ def read_config(section, file_path=None):
         # Construct the config file path relative to the script/module directory
         file_path = os.path.join(script_dir, "..", "config", "config.json")
 
-    with open(file_path, "r") as f:
-        config_data = json.load(f)
+    with open(file_path, "r", encoding="UTF-8") as file:
+        config_data = json.load(file)
 
     if section in config_data:
         return config_data[section]
-    else:
-        raise ValueError(f"The section '{section}' was not found in the configuration file.")
+    raise ValueError(f"The section '{section}' was not found in the configuration file.")

@@ -5,8 +5,8 @@
         "max_tokens": 4000
     },
     "discord": {
-        "dedicated_channel_id": 0,
-        "dedicated_thread_channel_id": 0,
+        "dedicated_channel_id": 1095796880706908160,
+        "dedicated_thread_channel_id": 1096123841870303292,
         "log_folder": "logs",
         "thread_auto_close_delay": 86400,
         "log_path_channel": "logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log",
@@ -17,5 +17,8 @@
         "log_rotation": 100000000,
         "log_retention": "730 days",
         "log_compression_format": "zip"
+    },
+    "schedule": {
+        "url": "https://cloud.timeedit.net/nackademin/web/1/ri66F5ZQ1Q68e5QZ05Q7dt2QZ78ZZ7791u5YZ6Qy875tAn8bE8CQEAE084BBE7C2D0D915791.ics"
     }
 }
