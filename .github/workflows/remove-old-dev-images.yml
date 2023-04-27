@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: chipkent/action-cleanup-package@v1.0.3  #v1.0.3
         with:
-          package-name: chatgpt-discord-bot-dev
+          package-name: discord-bot-dev
           tag: ${{ github.event.pull_request.number }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
