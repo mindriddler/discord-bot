@@ -40,12 +40,12 @@ omit = ["*/tests/*"]
 
 [tool.pytest.ini_options]
 addopts = [
-    "--import-mode=importlib", 
-    "--cov-branch", 
-    "--cov-fail-under=0", 
-    "--cov-config=pyproject.toml", 
-    "--cov=src", 
-    "--cov-report=term-missing", 
+    "--import-mode=importlib",
+    "--cov-branch",
+    "--cov-fail-under=0",
+    "--cov-config=pyproject.toml",
+    "--cov=src",
+    "--cov-report=term-missing",
     "--cov-report=xml"
 ]
 pythonpath = ["src"]
@@ -60,7 +60,7 @@ log_cli = 1
 ignore-paths = ["venv", ".venv", "src/tests"]
 
 [tool.pylint.MASTER]
-init-hook = 'import sys; sys.path.append("."); sys.path.append("./src")'
+init-hook = 'import sys; sys.path.append("."); sys.path.append("./Discord_bot/src")'
 
 
 [tool.pylint.messages_control]

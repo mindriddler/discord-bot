@@ -1,12 +1,12 @@
 import discord
-from chatgpt.openai_api import chatgpt_response
+from AI.openai_api import chatgpt_response
 from utils.logger_conf import DiscordBotLogger
 from utils.utils import DEFAULT_DM_MESSAGE, split_message
 
 logger = DiscordBotLogger()
 
 
-class ChatGPTFunctions:
+class OpenAIFunctions:
     def __init__(self, bot):
         self.bot = bot
         self.dm_loggers = {}

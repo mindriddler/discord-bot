@@ -45,23 +45,27 @@ This is a discord bot that currently only has one functionality
 
 Once the ChatGPT Discord Bot is running in your server, you can interact with it using the following methods:
 
-1. Use a specific command: `!command_name arguments`
+1. Use a specific command: `/command_name arguments`
 
 Commands available:
-- `!chatgpt`: The bot will create a thread and have your conversation there.
-- `!chatgpt <message>`: Interact with ChatGPT using the provided message.
-- `!dm`: Send a direct message to the specified user with the provided message.
-- `!about`: Get information about the ChatGPT Discord Bot.
-- `!help`: Display a list of available commands and their usage.
+- `/chatgpt <message>`: Interact with ChatGPT using the provided message.
+- `/dm`: Send a direct message to the specified user with the provided message.
+- - Takes an optional input of a message
+- `/about`: Get information about the ChatGPT Discord Bot.
+- `/help`: Display a list of available commands and their usage.
+- `/schedule`: Shows a schedule for the next n days
+- - n = number of days (excluding weekends). Take the optional input of number of days. If not supplied it will default to 7 days.
 
 Example:
 ```
-Sender: !chatgpt What is the capital of France?
-Bot: @Sender: The capital of France is Paris.
+Sender: /chatgpt What is the capital of France?
+Theodore: @Sender: The capital of France is Paris.
 ```
 ## Coming features
 
-TBD
+* Give the ChatGPT part of the bot a memory
+* Add image generating AI
+* Make the schedule be more dynamic and take more inputs from the user
 
 ## Contributing
 
@@ -116,14 +120,12 @@ The file is located in the `src/config` folder.
 
 <h5> The two top values NEEDS to be set, otherwise the bot will not listen to anything </h5>
 
-| Variable                            | What it is                                                                        | Default                                                                                              |
-| ----------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| discord.dedicated_channel_id        | The ID of the dedicated channel for the bot to listen to messages on              | None                                                                                                 |
-| discord.dedicated_thread_channel_id | The ID of the dedicated thread channel for the bot to listen to messages on       | None                                                                                                 |
-| discord.log_folder                  | The folder where logs will be stored                                              | logs                                                                                                 |
-| discord.thread_auto_close_delay     | The time in seconds after which an inactive thread should be automatically closed | 86400                                                                                                |
-| discord.log_path_channel            | The path for channel logs                                                         | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
-| discord.log_path_command            | The path for command logs                                                         | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
+| Variable                     | What it is                                                           | Default                                                                                              |
+| ---------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| discord.dedicated_channel_id | The ID of the dedicated channel for the bot to listen to messages on | None                                                                                                 |
+| discord.log_folder           | The folder where logs will be stored                                 | logs                                                                                                 |
+| discord.log_path_channel     | The path for channel logs                                            | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
+| discord.log_path_command     | The path for command logs                                            | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
 
 #### Logger settings
 | Variable                      | What it is                                             | Default   |
@@ -190,7 +192,7 @@ This project is licensed under the GNU License - see the [LICENSE](LICENSE.md) f
 
 ## Contact
 
-If you want to contact me you can reach me at 
+If you want to contact me you can reach me at
 
 * Discord: `Wikipedia#5457`
 * Email: `fredrikmagnusson10@live.se`
@@ -200,4 +202,3 @@ If you want to contact me you can reach me at
 ## Disclaimer
 
 This project is not affiliated with OpenAI or Discord in any way.
-

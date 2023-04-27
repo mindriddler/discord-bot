@@ -1,12 +1,15 @@
 import asyncio
+import importlib.util
 import os
+import signal
+import sys
 
 from discord.ext import commands
 from dotenv import load_dotenv
 
 import discord
-from chatgpt.chatgpt_functions import ChatGPTFunctions
-from chatgpt.openai_api import chatgpt_response
+from AI.openai_api import chatgpt_response
+from AI.openai_functions import OpenAIFunctions
 from utils.logger_conf import DiscordBotLogger
 from utils.utils import discordloghandler, read_config, split_message
 
@@ -20,8 +23,6 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="/", intents=intents, help_command=None)
 
 dedicated_channel_id: int = discord_config["dedicated_channel_id"]
-dedicated_thread_channel_id: int = discord_config["dedicated_thread_channel_id"]
-thread_auto_close_delay: int = discord_config["thread_auto_close_delay"]
 bot_logger = DiscordBotLogger(
     enqueue=True,
     _log_path_channel=discord_config["log_path_channel"],
@@ -30,24 +31,95 @@ bot_logger = DiscordBotLogger(
 logger = bot_logger.get_logger()
 discordloghandler()
 
-chatgpt = ChatGPTFunctions(bot)
+chatgpt = OpenAIFunctions(bot)
 
 
-async def load():
-    from cogs.appcommands import setup
+async def load_cog(cog_bot, cog_name):
+    # Import the cog module dynamically
+    cog_module_name = f"cogs.{cog_name}"
+    spec = importlib.util.find_spec(cog_module_name)
+    if spec is None:
+        logger.error(f"cogs.{cog_name} not found")
+        return
 
+    cog_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cog_module)
+
+    # Call the setup function if it exists
+    if hasattr(cog_module, "setup"):
+        logger.info(f"Loading: cogs.{cog_name}")
+        if cog_name == "openai":
+            await cog_module.setup(cog_bot, chatgpt)
+        else:
+            await cog_module.setup(bot)
+        logger.info(f"cogs.{cog_name}: loaded")
+    else:
+        logger.error(f"cogs.{cog_name} does not have a setup function")
+
+
+async def load(cog_bot):
     for filename in os.listdir("./src/cogs"):
         if filename.endswith(".py"):
             cog_name = filename[:-3]
-            if cog_name == "appcommands":
-                await setup(bot, chatgpt)
-                logger.info(f"Loading cog: {cog_name}")
+            await load_cog(cog_bot, cog_name)
+
+
+async def setup_signal_handlers(shutdown_event):
+    if sys.platform == "win32":
+
+        async def shutdown_check():
+            while not shutdown_event.is_set():
+                await asyncio.sleep(1)
+
+        loop = asyncio.get_running_loop()
+        loop.create_task(shutdown_check())
+    else:
+        loop = asyncio.get_running_loop()
+
+        def signal_handler():
+            shutdown_event.set()
+
+        loop.add_signal_handler(signal.SIGINT, signal_handler)
+        loop.add_signal_handler(signal.SIGTERM, signal_handler)
 
 
 async def main():
+    bot.loaded_cogs_count = 0
+    shutdown_event = asyncio.Event()
+
+    await setup_signal_handlers(shutdown_event)
+
     async with bot:
-        await load()
-        await bot.start(discord_token)
+        await load(bot)
+        bot.loop.create_task(check_all_cogs_loaded(bot))
+        try:
+            await bot.start(discord_token)
+        except KeyboardInterrupt:
+            pass
+        finally:
+            logger.info("CTRL+C executed. Shutting down gracefully...")
+            await send_shutdown_message()
+            await bot.close()
+            logger.info("Shutdown complete")
+
+    await shutdown_event.wait()
+
+
+async def send_shutdown_message():
+    channel = bot.get_channel(dedicated_channel_id)
+    if channel:
+        await channel.send("I have been forced to quit my services for now.. See you another time!")
+    else:
+        logger.error("Couldn't find the specified channel.")
+
+
+async def check_all_cogs_loaded(cog_bot):
+    while cog_bot.loaded_cogs_count < len(cog_bot.cogs):
+        await asyncio.sleep(1)
+    logger.info("All cogs have been loaded successfully")
+    channel = bot.get_channel(dedicated_channel_id)
+    if channel:
+        await channel.send("Hello everyone! Im single and ready to mingle!")
 
 
 @bot.event
@@ -87,4 +159,7 @@ async def on_message(message):
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass
