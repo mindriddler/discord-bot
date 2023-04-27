@@ -31,7 +31,6 @@ repos:
           - --output-format=colorized
           - --errors-only
           - --rcfile=Discord_bot/pyproject.toml
-          - --verbose
 
   - repo: https://github.com/PyCQA/isort
     rev: 5.12.0
