@@ -36,4 +36,4 @@ jobs:
           token: ${{ secrets.WORKFLOW }}
           generate_release_notes: true
         env:
-          GITHUB_REPOSITORY: mindriddler/chatgpt-discord-bot
+          GITHUB_REPOSITORY: mindriddler/discord-bot

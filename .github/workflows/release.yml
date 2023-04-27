@@ -22,7 +22,7 @@ jobs:
         registry: ghcr.io
         username: mindriddler
         password: ${{ secrets.GITHUB_TOKEN }}
-        
+
     - name: Get latest tag
       id: latest_tag
       run: |
@@ -34,17 +34,17 @@ jobs:
         export DOCKER_BUILDKIT=1
         docker build --build-arg GITHUB_ACTION=true \
           --file ./Docker/Dockerfile \
-          --tag ghcr.io/mindriddler/chatgpt-discord-bot:${{ env.LATEST_TAG }} \
-          --tag ghcr.io/mindriddler/chatgpt-discord-bot:latest .
+          --tag ghcr.io/mindriddler/discord-bot:${{ env.LATEST_TAG }} \
+          --tag ghcr.io/mindriddler/discord-bot:latest .
     - name: Push Docker Image
       run: |
-        docker image push --all-tags ghcr.io/mindriddler/chatgpt-discord-bot
-    
+        docker image push --all-tags ghcr.io/mindriddler/discord-bot
+
     - name: Delete all untagged images
       uses: actions/delete-package-versions@v4
       with:
         owner: ${{ github.repository_owner }}
-        package-name: "chatgpt-discord-bot"
+        package-name: "discord-bot"
         package-type: "container"
         token: ${{ secrets.GITHUB_TOKEN }}
         min-versions-to-keep: 1

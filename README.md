@@ -2,10 +2,10 @@
 [![Release image](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/release.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/release.yml)
 [![Dev image](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/dev.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/dev.yml)
 [![Remove old Dev images](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/remove-old-dev-images.yml/badge.svg)](https://github.com/mindriddler/chatgpt-discord-bot/actions/workflows/remove-old-dev-images.yml.yml)
-# ChatGPT Discord Bot
+# DevOps22 Discord Bot
 # Table of Contents
 
-- [ChatGPT Discord Bot](#chatgpt-discord-bot)
+- [DevOps22 Discord Bot](#devops22-discord-bot)
 - [Table of Contents](#table-of-contents)
   - [Background](#background)
   - [Description](#description)
@@ -38,12 +38,13 @@ I also wanted to experiment with setting up github actions.
 
 ## Description
 
-This is a discord bot that currently only has one functionality
-* ChatGPT
+This is a discord bot that currently has a few functionalities
+* OpenAI ChatGPT
+* Able to show a schedule
 
 ## Usage
 
-Once the ChatGPT Discord Bot is running in your server, you can interact with it using the following methods:
+Once the Discord Bot is running in your server, you can interact with it using the following methods:
 
 1. Use a specific command: `/command_name arguments`
 
@@ -87,12 +88,12 @@ You will need to create your own.
 3. Click on "Bot" in the menu on the left.
 4. Click on "Reset Token"
 5. Copy the token and save it somewhere safe, you're going to need it later
-6. Make sure that that you tick the 3 bottoms checks ([like this](https://github.com/mindriddler/chatgpt-discord-bot/blob/16-write-readmemd/assets/bot_settings.jpg?raw=true))
+6. Make sure that that you tick the 3 bottoms checks ([like this](https://github.com/mindriddler/DevOps22-discord-bot/blob/main/assets/bot_settings.jpg?raw=true))
 7. Click on "Add Bot" and confirm.
 8. Click on "OAuth2"
 9. Click on "URL Generator"
 10.  Select "bot" and "applications.commands"
-11. Make sure that that you set the correct permissions ([example](https://github.com/mindriddler/chatgpt-discord-bot/blob/16-write-readmemd/assets/bot_permissions.jpg?raw=true))
+11. Make sure that that you set the correct permissions ([example](https://github.com/mindriddler/DevOps22-discord-bot/blob/main/assets/bot_permissions.jpg?raw=true))
 12. Copy the link and paste it in your browser.
 13. Select the server you want to add the bot to.
 14. Click on "Authorize"
@@ -159,13 +160,13 @@ If you prefer not to build the Docker image yourself, you can pull the pre-built
 To pull the images from GHCR, use the following command:
 
 ```bash
-docker pull ghcr.io/mindriddler/chatgpt-discord-bot:<tag>
+docker pull ghcr.io/mindriddler/DevOps22-discord-bot:<tag>
 ```
 Replace `<tag>` with the appropriate tag for the version you want to use (e.g., `latest`).
 
 After pulling the image, you can run the container using the following command:
 ```bash
-docker run -d --name chatgpt-discord-bot --env-file .env ghcr.io/mindriddler/chatgpt-discord-bot:<tag>
+docker run -d --name DevOps22-discord-bot --env-file .env ghcr.io/mindriddler/DevOps22-discord-bot:<tag>
 ```
 
 Replace `<tag>` with the same tag used when pulling the image.
