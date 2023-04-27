@@ -39,7 +39,7 @@ Threads will be automatically closed after 24 hours.
 """
 
 COMMAND_DESCRIPTIONS = {
-    "avatar": "Send något",
+    "schedule": "Shows a schedule for n about of days",
     "chatgpt": "Ask ChatGPT a question of your choice and you will get a answer back.",
     "help": "Show a small help section with available commands.",
     "about": "Show a small about section for the bot.",
@@ -47,12 +47,6 @@ COMMAND_DESCRIPTIONS = {
 }
 
 
-# def remove_log_folder():
-#     if os.path.exists(LOG_FOLDER):
-#         shutil.rmtree(LOG_FOLDER)
-#     os.mkdir("logs")
-#     with open("logs/.gitkeep", "w", encoding="utf-8") as file:
-#         file.close()
 def split_message(message, max_length=2000):
     if len(message) <= max_length:
         return [message]
