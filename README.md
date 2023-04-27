@@ -45,23 +45,27 @@ This is a discord bot that currently only has one functionality
 
 Once the ChatGPT Discord Bot is running in your server, you can interact with it using the following methods:
 
-1. Use a specific command: `!command_name arguments`
+1. Use a specific command: `/command_name arguments`
 
 Commands available:
-- `!chatgpt`: The bot will create a thread and have your conversation there.
-- `!chatgpt <message>`: Interact with ChatGPT using the provided message.
-- `!dm`: Send a direct message to the specified user with the provided message.
-- `!about`: Get information about the ChatGPT Discord Bot.
-- `!help`: Display a list of available commands and their usage.
+- `/chatgpt <message>`: Interact with ChatGPT using the provided message.
+- `/dm`: Send a direct message to the specified user with the provided message.
+- - Takes an optional input of a message
+- `/about`: Get information about the ChatGPT Discord Bot.
+- `/help`: Display a list of available commands and their usage.
+- `/schedule`: Shows a schedule for the next n days
+- - n = number of days (excluding weekends). Take the optional input of number of days. If not supplied it will default to 7 days.
 
 Example:
 ```
-Sender: !chatgpt What is the capital of France?
-Bot: @Sender: The capital of France is Paris.
+Sender: /chatgpt What is the capital of France?
+Theodore: @Sender: The capital of France is Paris.
 ```
 ## Coming features
 
-TBD
+* Give the ChatGPT part of the bot a memory
+* Add image generating AI
+* Make the schedule be more dynamic and take more inputs from the user
 
 ## Contributing
 
