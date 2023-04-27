@@ -6,9 +6,7 @@
     },
     "discord": {
         "dedicated_channel_id": 1095796880706908160,
-        "dedicated_thread_channel_id": 1096123841870303292,
         "log_folder": "logs",
-        "thread_auto_close_delay": 86400,
         "log_path_channel": "logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log",
         "log_path_command": "logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log"
     },
