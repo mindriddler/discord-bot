@@ -116,14 +116,12 @@ The file is located in the `src/config` folder.
 
 <h5> The two top values NEEDS to be set, otherwise the bot will not listen to anything </h5>
 
-| Variable                            | What it is                                                                        | Default                                                                                              |
-| ----------------------------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| discord.dedicated_channel_id        | The ID of the dedicated channel for the bot to listen to messages on              | None                                                                                                 |
-| discord.dedicated_thread_channel_id | The ID of the dedicated thread channel for the bot to listen to messages on       | None                                                                                                 |
-| discord.log_folder                  | The folder where logs will be stored                                              | logs                                                                                                 |
-| discord.thread_auto_close_delay     | The time in seconds after which an inactive thread should be automatically closed | 86400                                                                                                |
-| discord.log_path_channel            | The path for channel logs                                                         | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
-| discord.log_path_command            | The path for command logs                                                         | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
+| Variable                     | What it is                                                           | Default                                                                                              |
+| ---------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| discord.dedicated_channel_id | The ID of the dedicated channel for the bot to listen to messages on | None                                                                                                 |
+| discord.log_folder           | The folder where logs will be stored                                 | logs                                                                                                 |
+| discord.log_path_channel     | The path for channel logs                                            | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
+| discord.log_path_command     | The path for command logs                                            | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
 
 #### Logger settings
 | Variable                      | What it is                                             | Default   |
@@ -190,7 +188,7 @@ This project is licensed under the GNU License - see the [LICENSE](LICENSE.md) f
 
 ## Contact
 
-If you want to contact me you can reach me at 
+If you want to contact me you can reach me at
 
 * Discord: `Wikipedia#5457`
 * Email: `fredrikmagnusson10@live.se`
@@ -200,4 +198,3 @@ If you want to contact me you can reach me at
 ## Disclaimer
 
 This project is not affiliated with OpenAI or Discord in any way.
-
