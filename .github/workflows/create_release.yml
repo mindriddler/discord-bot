@@ -1,9 +1,8 @@
 name: Create release and tags
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 10 * * *'
 
 permissions:
   contents: write
@@ -12,6 +11,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && contains(github.event.commits[0].modified, 'main')
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,7 +22,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
-          DEFAULT_BUMP: patch
+          DEFAULT_BUMP: minor
       - name: Get latest tag
         id: latest_tag
         run: |
