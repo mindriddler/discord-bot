@@ -2,7 +2,7 @@ name: Create release and tags
 
 on:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 12 * * *'
 
 permissions:
   contents: write
