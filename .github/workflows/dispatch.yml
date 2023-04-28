@@ -2,7 +2,7 @@ name: dispatch
 
 on:
   schedule:
-    - cron: '0 12 * * *'
+    - cron: '0 10 * * *'
 
 jobs:
   check_changes_and_trigger:
