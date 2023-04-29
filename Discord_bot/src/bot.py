@@ -4,10 +4,10 @@ import os
 import signal
 import sys
 
+import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-import discord
 from AI.openai_api import chatgpt_response
 from AI.openai_functions import OpenAIFunctions
 from utils.logger_conf import DiscordBotLogger
