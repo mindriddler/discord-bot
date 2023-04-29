@@ -14,9 +14,6 @@ class OpenAI(commands.Cog):
         self.bot = bot
         self.ai = ai
 
-    def log_command_execution(self, interaction: discord.Interaction):
-        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
-
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info(f"{__name__}: Initializing...")
@@ -33,14 +30,11 @@ class OpenAI(commands.Cog):
             interaction (discord.Interaction): The interaction object representing the user command.
             message (str, optional): The message provided by the user. Defaults to None.
         """
-        self.log_command_execution(interaction)
+        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
         if message is None:
-            # If no message is provided by the user
-
             logger.warning("No message provided!")
             await interaction.response.send_message("Please provide a message to discuss with ChatGPT.", ephemeral=True)
         else:
-            # If a message is provided by the user
             logger.command(f"{str(interaction.user)} >> {self.bot.user}: {message}")
             bot_response = await chatgpt_response(prompt=message)
             await interaction.response.send_message(f"{interaction.user.mention}: {bot_response}")
@@ -48,10 +42,13 @@ class OpenAI(commands.Cog):
 
     @app_commands.command(name="dm", description=COMMAND_DESCRIPTIONS["dm"])
     async def dm(self, interaction: discord.Interaction, message: str = None):
-        self.log_command_execution(interaction)
+        logger.command(
+            f"Command '{interaction.data['name']}' executed by {str(interaction.user)} with message: {message}"
+        )
 
         if message is None:
             message = "This is the default message when the user doesn't provide one."
+            logger.warning("No message supplied!")
 
         bot_response = DEFAULT_DM_MESSAGE
         await self.ai.handle_dm(interaction, message, bot_response, self.bot.user, str(interaction.user))
@@ -65,12 +62,15 @@ class OpenAI(commands.Cog):
         size: str = None,
         num_of_pictures: int = None,
     ):
-        self.log_command_execution(interaction)
+        logger.command(
+            f"Command '{interaction.data['name']}' executed by {str(interaction.user)} with message: {message}"
+        )
 
         if message is None:
             await interaction.response.send_message(
                 "You have to provide what you want the AI to generate.", ephemeral=True
             )
+            logger.warning("No message supplied!")
             return
 
         if size is None:

@@ -12,9 +12,6 @@ class General(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def log_command_execution(self, interaction: discord.Interaction):
-        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
-
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info(f"{__name__}: Initializing...")
@@ -30,7 +27,7 @@ class General(commands.Cog):
         Args:
             interaction (discord.Interaction): The interaction object representing the user command.
         """
-        self.log_command_execution(interaction)
+        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
         await interaction.response.send_message(HELP_STR, ephemeral=True)
 
     @app_commands.command(name="about", description=COMMAND_DESCRIPTIONS["about"])
@@ -41,7 +38,7 @@ class General(commands.Cog):
         Args:
             interaction (discord.Interaction): The interaction object representing the user command.
         """
-        self.log_command_execution(interaction)
+        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
         await interaction.response.send_message(ABOUT_STR, ephemeral=True)
 
 
