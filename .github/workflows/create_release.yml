@@ -12,7 +12,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && contains(github.event.commits[0].modified, 'main')
     steps:
       - name: Checkout
         uses: actions/checkout@v3
