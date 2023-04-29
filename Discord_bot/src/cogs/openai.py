@@ -78,14 +78,12 @@ class OpenAI(commands.Cog):
         if num_of_pictures is None:
             num_of_pictures = 1
 
-        # Acknowledge the interaction without sending a message
         await interaction.response.defer(ephemeral=True)
 
         generated_images = await image_generator(message, size, num_of_pictures)
-        logger.info(generated_images)
 
-        # Send each image URL as a separate embed in a follow-up message
         for image_url in generated_images:
+            logger.info(image_url)
             embed = discord.Embed()
             embed.set_image(url=image_url)
             await interaction.followup.send(embed=embed, ephemeral=True)
