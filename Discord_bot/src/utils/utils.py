@@ -8,10 +8,10 @@ import os
 
 HELP_STR = """
 Help section for ChatGPT Discord Bot\n
-!chatgpt - Start a conversation with ChatGPT
-!dm - Start a private conversation with ChatGPT
-!about - Brief description
-!help - This help message
+/chatgpt - Start a conversation with ChatGPT
+/dm - Start a private conversation with ChatGPT
+/about - Brief description
+/help - This help message
 """
 
 ABOUT_STR = """
@@ -44,6 +44,7 @@ COMMAND_DESCRIPTIONS = {
     "help": "Show a small help section with available commands.",
     "about": "Show a small about section for the bot.",
     "dm": "ChatGPT will start DMs with you.",
+    "image": "Generate a image using the DALL-E AI model from OpenAI.",
 }
 
 
