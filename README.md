@@ -22,6 +22,7 @@
       - [Discord settings](#discord-settings)
       - [Logger settings](#logger-settings)
       - [Schedule settings](#schedule-settings)
+      - [Github settings](#github-settings)
     - [Running the bot with Docker](#running-the-bot-with-docker)
       - [Using pre-built Docker images from GHCR](#using-pre-built-docker-images-from-ghcr)
   - [Troubleshooting](#troubleshooting)
@@ -40,7 +41,9 @@ I also wanted to experiment with setting up github actions.
 
 This is a discord bot that currently has a few functionalities
 * OpenAI ChatGPT
+* OpenAI Image Generation
 * Able to show a schedule
+* Github Stats
 
 ## Usage
 
@@ -50,12 +53,18 @@ Once the Discord Bot is running in your server, you can interact with it using t
 
 Commands available:
 - `/chatgpt <message>`: Interact with ChatGPT using the provided message.
+- `/image <message>`: DALL-E will generate a image for you based on the message.
+- - Takes 2 optional inputs. Size and number of images
 - `/dm`: Send a direct message to the specified user with the provided message.
 - - Takes an optional input of a message
-- `/about`: Get information about the ChatGPT Discord Bot.
-- `/help`: Display a list of available commands and their usage.
+- `/github_stats`: Shows simple github stats
+- - Takes an optional input of a username.
 - `/schedule`: Shows a schedule for the next n days
 - - n = number of days (excluding weekends). Take the optional input of number of days. If not supplied it will default to 7 days.
+- `/about`: Get information about the ChatGPT Discord Bot.
+- `/help`: Display a list of available commands and their usage.
+
+
 
 Example:
 ```
@@ -65,7 +74,8 @@ Theodore: @Sender: The capital of France is Paris.
 ## Coming features
 
 * Give the ChatGPT part of the bot a memory
-* Add image generating AI
+* DONE! ~~Add image generating AI~~
+* Add more options to config.json for AI image generation
 * Make the schedule be more dynamic and take more inputs from the user
 
 ## Contributing
@@ -140,6 +150,13 @@ The file is located in the `src/config` folder.
 | Variable     | What it is                 | Default |
 | ------------ | -------------------------- | ------- |
 | schedule.url | URL to your class schedule | None    |
+
+#### Github settings
+| Variable            | What it is                                                                      | Default                                                                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| github.user_stats   | API link for stats                                                              | <details> <summary> *Show* </summary> https://github-readme-stats.vercel.app/api?username={}&show_icons=true&theme=dark&hide_border=true" </details> |
+| github.user_streak  | API link for streak                                                             | <details> <summary> *Show* </summary> https://streak-stats.demolab.com/?user={}&theme=dark&hide_border=true </details>                               |
+| github.default_user | Default user for stats and streak API of no username is provided in the command | mindriddler                                                                                                                                          |
 
 You can change these values to whatever (as long as they're valid) you want and the bot will respect them
 
