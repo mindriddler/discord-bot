@@ -3,6 +3,11 @@ import json
 import logging
 import logging.handlers
 import os
+from io import BytesIO
+
+import requests
+from reportlab.graphics import renderPM
+from svglib.svglib import svg2rlg
 
 # CONSTANTS
 
@@ -45,7 +50,26 @@ COMMAND_DESCRIPTIONS = {
     "about": "Show a small about section for the bot.",
     "dm": "ChatGPT will start DMs with you.",
     "image": "Generate a image using the DALL-E AI model from OpenAI.",
+    "github stats": "Will show you brief github stats for specified user",
 }
+
+
+async def convert_svg_url_to_png(*svg_urls, suppress_warnings):
+    pngs = []
+    if suppress_warnings:
+        logging.getLogger("svglib.svglib").setLevel(logging.CRITICAL)
+        logging.getLogger("reportlab.graphics").setLevel(logging.CRITICAL)
+
+    for svg_url in svg_urls:
+        response = requests.get(svg_url)
+        svg_data = BytesIO(response.content)
+        drawing = svg2rlg(svg_data)
+        img_data = BytesIO()
+        renderPM.drawToFile(drawing, img_data, fmt="PNG")
+        img_data.seek(0)
+        pngs.append(img_data)
+
+    return pngs
 
 
 def split_message(message, max_length=2000):

@@ -10,7 +10,12 @@ COPY ./Discord_bot/requirements.txt ./
 RUN apk update
 RUN apk upgrade
 
+# Install system-level dependencies
+RUN apk add --no-cache jpeg-dev zlib-dev
+RUN apk add --no-cache build-base libffi-dev openssl-dev freetype-dev
+
 # Install the Python dependencies
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the environment variable for the Discord token and OpenAI API key
