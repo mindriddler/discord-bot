@@ -116,7 +116,7 @@ def read_config(section):
     """
     Returns specified section of config.json as a dictionary
     """
-    default_path = "config/config.json"
+    default_path = f"{get_bot_directory()}config/config.json"
     try:
         with open(os.environ.get("BOT_CONFIG_FILE", default_path), "r", encoding="utf-8") as file:
             config_data = json.load(file)
