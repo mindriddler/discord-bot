@@ -2,8 +2,8 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from utils.logger_conf import DiscordBotLogger
-from utils.utils import COMMAND_DESCRIPTIONS, convert_svg_url_to_png, read_config
+from logger_conf import DiscordBotLogger
+from helperfunctions import COMMAND_DESCRIPTIONS, convert_svg_url_to_png, read_config
 
 logger = DiscordBotLogger().get_logger()
 github_config = read_config("github")

@@ -7,8 +7,8 @@ from discord import app_commands
 from discord.ext import commands
 from icalendar import Calendar
 
-from utils.logger_conf import DiscordBotLogger
-from utils.utils import COMMAND_DESCRIPTIONS, read_config
+from logger_conf import DiscordBotLogger
+from helperfunctions import COMMAND_DESCRIPTIONS, read_config
 
 logger = DiscordBotLogger().get_logger()
 

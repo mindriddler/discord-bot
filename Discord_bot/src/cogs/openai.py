@@ -5,8 +5,8 @@ from discord import app_commands
 from discord.ext import commands
 
 from AI.openai_api import chatgpt_response, image_generator
-from utils.logger_conf import DiscordBotLogger
-from utils.utils import COMMAND_DESCRIPTIONS, DEFAULT_DM_MESSAGE
+from logger_conf import DiscordBotLogger
+from helperfunctions import COMMAND_DESCRIPTIONS, DEFAULT_DM_MESSAGE
 
 logger = DiscordBotLogger().get_logger()
 

@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 
 from AI.openai_api import chatgpt_response
 from AI.openai_functions import OpenAIFunctions
-from utils.logger_conf import DiscordBotLogger
-from utils.utils import discordloghandler, read_config, split_message
+from logger_conf import DiscordBotLogger
+from helperfunctions import discordloghandler, read_config, split_message
 
 load_dotenv()
 discord_token = os.getenv("DISCORD_TOKEN")

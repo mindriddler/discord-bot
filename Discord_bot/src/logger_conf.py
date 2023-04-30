@@ -8,7 +8,7 @@ from functools import partialmethod
 
 import loguru
 
-from utils.utils import read_config
+from helperfunctions import read_config
 
 logger_config = read_config("logger")
 

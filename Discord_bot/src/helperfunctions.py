@@ -3,10 +3,13 @@ import json
 import logging
 import logging.handlers
 from io import BytesIO
-
+import os
+import jsonschema
 import requests
 from reportlab.graphics import renderPM
 from svglib.svglib import svg2rlg
+from config_validation_schema import schema as CONFIG_SCHEMA
+from jsonschema import validate
 
 # CONSTANTS
 
@@ -103,14 +106,45 @@ def discordloghandler():
     logger.addHandler(handler)
 
 
-def read_config(section, file_path=None):
-    if file_path is None:
-        # Use an absolute path to the config file
-        file_path = "./config/config.json"
+def read_config(section):
+    """
+    Returns specified section of config.json as a dictionary
+    """
+    default_path = f"{get_bot_directory()}\config\config.json"
+    try:
+        with open(os.environ.get("BOT_CONFIG_FILE", default_path), "r", encoding="utf-8") as file:
+            config_data = json.load(file)
+            validate_config(config_data, schema=CONFIG_SCHEMA)
+            if section in config_data:
+                return config_data[section]
+            else:
+                raise ValueError(f"Section '{section}' not found in config file")
+    except (json.decoder.JSONDecodeError, jsonschema.exceptions.ValidationError) as error:
+        print(error)
+        raise
 
-    with open(file_path, "r", encoding="UTF-8") as file:
-        config_data = json.load(file)
 
-    if section in config_data:
-        return config_data[section]
-    raise ValueError(f"The section '{section}' was not found in the configuration file.")
+def get_bot_directory() -> str:
+    """
+    Returns the directory that bot.py is in.
+    """
+
+    return os.path.dirname(os.path.realpath(__file__))
+
+
+def validate_config(config: dict, schema: dict) -> str | None:
+    """
+    Check that all required fields are present in the configuration file
+
+    Args:
+        config (dict): The configuration file
+        schema (dict): The schema to validate against
+
+    Returns:
+        None
+
+    Raises:
+        jsonschema.exceptions.ValidationError: If the configuration file is missing required fields
+    """
+
+    validate(instance=config, schema=schema)
