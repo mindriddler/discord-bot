@@ -1,3 +1,5 @@
+import traceback
+
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -30,15 +32,22 @@ class OpenAI(commands.Cog):
             interaction (discord.Interaction): The interaction object representing the user command.
             message (str, optional): The message provided by the user. Defaults to None.
         """
-        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
-        if message is None:
-            logger.warning("No message provided!")
-            await interaction.response.send_message("Please provide a message to discuss with ChatGPT.", ephemeral=True)
-        else:
-            logger.command(f"{str(interaction.user)} >> {self.bot.user}: {message}")
-            bot_response = await chatgpt_response(prompt=message)
-            await interaction.response.send_message(f"{interaction.user.mention}: {bot_response}")
-            logger.command(f"{self.bot.user} >> {str(interaction.user)}: {bot_response}")
+        try:
+            logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
+            if message is None:
+                logger.warning("No message provided!")
+                await interaction.response.send_message(
+                    "Please provide a message to discuss with ChatGPT.", ephemeral=True
+                )
+            else:
+                logger.command(f"{str(interaction.user)} >> {self.bot.user}: {message}")
+                await interaction.response.defer()
+                bot_response = await chatgpt_response(prompt=message)
+                await interaction.followup.send(f"{interaction.user.mention}: {bot_response}")
+                logger.command(f"{self.bot.user} >> {str(interaction.user)}: {bot_response}")
+        except Exception as e:
+            logger.error(f"Error in chatgpt command: {str(e)}")
+            logger.error(traceback.format_exc())
 
     @app_commands.command(name="dm", description=COMMAND_DESCRIPTIONS["dm"])
     async def dm(self, interaction: discord.Interaction, message: str = None):
@@ -80,13 +89,15 @@ class OpenAI(commands.Cog):
 
         await interaction.response.defer(ephemeral=True)
 
-        generated_images = await image_generator(message, size, num_of_pictures)
-
-        for image_url in generated_images:
-            logger.info(image_url)
-            embed = discord.Embed()
-            embed.set_image(url=image_url)
-            await interaction.followup.send(embed=embed, ephemeral=True)
+        response = await image_generator(message, size, num_of_pictures)
+        if response.startswith("Error"):
+            await interaction.followup.send(response, ephemeral=True)
+        else:
+            for image_url in response:
+                logger.info(image_url)
+                embed = discord.Embed()
+                embed.set_image(url=image_url)
+                await interaction.followup.send(embed=embed, ephemeral=True)
 
 
 async def setup(bot, ai):
