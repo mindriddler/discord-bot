@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 
+import discord
 import pytz
 import requests
+from discord import app_commands
 from discord.ext import commands
 from icalendar import Calendar
 
-import discord
-from discord import app_commands
 from utils.logger_conf import DiscordBotLogger
 from utils.utils import COMMAND_DESCRIPTIONS, read_config
 

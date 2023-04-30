@@ -1,4 +1,5 @@
 import discord
+
 from AI.openai_api import chatgpt_response
 from utils.logger_conf import DiscordBotLogger
 from utils.utils import DEFAULT_DM_MESSAGE, split_message

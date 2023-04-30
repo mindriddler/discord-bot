@@ -33,3 +33,25 @@ async def chatgpt_response(prompt):
     if response_dict and len(response_dict) > 0:
         prompt_response = response_dict[0]["message"]["content"]
     return prompt_response.strip()
+
+
+async def image_generator(prompt, size, num_of_pictures):
+    loop = asyncio.get_running_loop()
+    response = await loop.run_in_executor(
+        None,
+        partial(
+            openai.Image.create,
+            prompt=prompt,
+            model="image-alpha-001",
+            size=size,
+            response_format="url",
+            n=num_of_pictures,
+        ),
+    )
+    response_list = []
+    if len(response["data"]) > 1:
+        for url in response["data"]:
+            response_list.append(url["url"])
+    else:
+        response_list.append(response["data"][0]["url"])
+    return response_list
