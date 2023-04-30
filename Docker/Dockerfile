@@ -9,7 +9,10 @@ COPY ./Discord_bot/requirements.txt ./
 
 RUN apk update
 RUN apk upgrade
-RUN apk install libjpeg-dev zlib1g-dev
+
+# Install system-level dependencies
+RUN apk add --no-cache jpeg-dev zlib-dev
+RUN apk add --no-cache build-base libffi-dev openssl-dev
 
 # Install the Python dependencies
 RUN pip install --upgrade pip
