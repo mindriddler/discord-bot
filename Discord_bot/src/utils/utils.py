@@ -106,7 +106,7 @@ def discordloghandler():
 def read_config(section, file_path=None):
     if file_path is None:
         # Use an absolute path to the config file
-        file_path = "/config/config.json"
+        file_path = "./config/config.json"
 
     with open(file_path, "r", encoding="UTF-8") as file:
         config_data = json.load(file)
