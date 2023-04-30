@@ -95,7 +95,6 @@ def discordloghandler():
     logger.setLevel(logging.DEBUG)
     logging.getLogger("discord.http").setLevel(logging.INFO)
     log = read_config("logger")
-    print(log)
 
     # Format the filename using the current time
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
