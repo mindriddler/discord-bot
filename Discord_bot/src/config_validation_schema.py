@@ -33,6 +33,7 @@ schema = {
         "logger": {
             "type": "object",
             "properties": {
+                "log_path_info": {"type": "string"},
                 "log_level": {"type": "string"},
                 "log_rotation": {"type": "number"},
                 "log_retention": {"type": "string"},

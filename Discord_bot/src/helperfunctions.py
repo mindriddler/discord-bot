@@ -1,4 +1,5 @@
 # import shutil
+import datetime
 import json
 import logging
 import logging.handlers
@@ -93,9 +94,15 @@ def discordloghandler():
     logger = logging.getLogger("discord")
     logger.setLevel(logging.DEBUG)
     logging.getLogger("discord.http").setLevel(logging.INFO)
+    log = read_config("logger")
+    print(log)
+
+    # Format the filename using the current time
+    current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
+    filename = log["log_path_info"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
 
     handler = logging.handlers.RotatingFileHandler(
-        filename="/logs/info.log",
+        filename=filename,
         encoding="utf-8",
         maxBytes=32 * 1024 * 1024,  # 32 MiB
         backupCount=5,  # Rotate through 5 files
