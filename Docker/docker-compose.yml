@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  chatgpt-discord-bot:
+  discord-bot:
     image: ghcr.io/mindriddler/discord-bot:latest
     env_file:
       - ../.env
