@@ -19,10 +19,10 @@ class DiscordBotLogger:
     def __init__(
         self,
         log_level: str = logger_config["log_level"],
-        _log_path_channel: str = "logs/channel.log",
-        _log_path_command: str = "logs/command.log",
-        _log_path_dm: str = "logs/dm_logs/dm.log",
-        _log_path: str = "logs/info.log",
+        _log_path_channel: str = "/logs/channel.log",
+        _log_path_command: str = "/logs/command.log",
+        _log_path_dm: str = "/logs/dm_logs/dm.log",
+        _log_path: str = "/logs/info.log",
         log_rotation: int | str | datetime.timedelta | datetime.time = logger_config["log_rotation"],
         log_retention: str = logger_config["log_retention"],
         log_compression_format: str = logger_config["log_compression_format"],
@@ -56,7 +56,7 @@ class DiscordBotLogger:
             self.custom_levels.append(name)
 
     def get_dm_logger_for_user(self, user_id: str) -> loguru.Logger:
-        dm_log_path = f"logs/dm_logs/{user_id}.log"
+        dm_log_path = f"/logs/dm_logs/{user_id}.log"
         logger = loguru.logger
         custom_level_name = f"{user_id}"
         if not hasattr(loguru.logger.__class__, custom_level_name):
