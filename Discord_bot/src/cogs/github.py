@@ -6,6 +6,7 @@ from utils.logger_conf import DiscordBotLogger
 from utils.utils import COMMAND_DESCRIPTIONS, convert_svg_url_to_png, read_config
 
 logger = DiscordBotLogger().get_logger()
+github_config = read_config("github")
 
 
 class Github(commands.Cog):
@@ -26,15 +27,14 @@ class Github(commands.Cog):
         # defaults to creator
         # feel free to change
         if username is None:
-            username = "mindriddler"
+            username = github_config["default_user"]
             logger.warning(f"No username supplied! Defaulting to {username}")
 
         await interaction.response.defer(ephemeral=True)
 
-        config = read_config("github")
         urls = {
-            "user_stats": config["user_stats"].format(username),
-            "streak_stats": config["streak_stats"].format(username),
+            "user_stats": github_config["user_stats"].format(username),
+            "streak_stats": github_config["streak_stats"].format(username),
         }
 
         png_user, png_streak = await convert_svg_url_to_png(
