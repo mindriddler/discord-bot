@@ -19,9 +19,6 @@ class Schedule(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def log_command_execution(self, interaction: discord.Interaction):
-        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
-
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info(f"{__name__}: Initializing...")
@@ -31,10 +28,14 @@ class Schedule(commands.Cog):
 
     @app_commands.command(name="schedule", description=COMMAND_DESCRIPTIONS["schedule"])
     async def schedule(self, interaction: discord.Interaction, num_of_days: int = None):
-        self.log_command_execution(interaction)
+        logger.command(
+            f"Command '{interaction.data['name']}' executed by {str(interaction.user)} with number: {num_of_days}"
+        )
         if num_of_days is None:
             num_of_days = 7
+            logger.warning("No number of days supplied!")
         elif num_of_days > 20:
+            logger.warning("To high number!")
             message = "Max 20 days!"
             await interaction.response.send_message(message, ephemeral=True)
 
