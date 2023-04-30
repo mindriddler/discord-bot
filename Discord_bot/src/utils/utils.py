@@ -110,7 +110,7 @@ def read_config(section, file_path=None):
         script_dir = os.path.dirname(os.path.realpath(__file__))
 
         # Construct the config file path relative to the script/module directory
-        file_path = os.path.join(script_dir, "..", "config", "config.json")
+        file_path = os.path.join(os.path.dirname(script_dir), "config", "config.json")
 
     with open(file_path, "r", encoding="UTF-8") as file:
         config_data = json.load(file)
