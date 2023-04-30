@@ -2,7 +2,7 @@
 FROM --platform=linux/amd64 python:3.11.2-alpine3.17
 
 # Set the working directory
-WORKDIR /src
+WORKDIR /root
 
 # Copy the requirements file into the container
 COPY ./Discord_bot/requirements.txt ./
