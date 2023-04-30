@@ -2,7 +2,6 @@
 import json
 import logging
 import logging.handlers
-import os
 from io import BytesIO
 
 import requests
@@ -106,11 +105,8 @@ def discordloghandler():
 
 def read_config(section, file_path=None):
     if file_path is None:
-        # Get the directory of the current script/module
-        script_dir = os.path.dirname(os.path.realpath(__file__))
-
-        # Construct the config file path relative to the script/module directory
-        file_path = os.path.join(os.path.dirname(script_dir), "config", "config.json")
+        # Use an absolute path to the config file
+        file_path = "/config/config.json"
 
     with open(file_path, "r", encoding="UTF-8") as file:
         config_data = json.load(file)

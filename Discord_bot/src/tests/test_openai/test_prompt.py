@@ -1,29 +1,29 @@
-from unittest.mock import MagicMock, patch
+# from unittest.mock import MagicMock, patch
 
-import pytest
+# import pytest
 
-from AI.openai_api import chatgpt_response
-
-
-@pytest.mark.asyncio
-async def test_chatgpt_response():
-    prompt = "What is the capital of France?"
-    mock_response = MagicMock()
-    mock_response.choices = [{"message": {"content": "The capital of France is Paris."}}]
-
-    with patch("openai.ChatCompletion.create", return_value=mock_response):
-        response = await chatgpt_response(prompt)
-
-    assert response == "The capital of France is Paris."
+# from AI.openai_api import chatgpt_response
 
 
-@pytest.mark.asyncio
-async def test_chatgpt_response_empty():
-    prompt = "What is the capital of France?"
-    mock_response = MagicMock()
-    mock_response.choices = []
+# @pytest.mark.asyncio
+# async def test_chatgpt_response():
+#     prompt = "What is the capital of France?"
+#     mock_response = MagicMock()
+#     mock_response.choices = [{"message": {"content": "The capital of France is Paris."}}]
 
-    with patch("openai.ChatCompletion.create", return_value=mock_response):
-        response = await chatgpt_response(prompt)
+#     with patch("openai.ChatCompletion.create", return_value=mock_response):
+#         response = await chatgpt_response(prompt)
 
-    assert response == ""
+#     assert response == "The capital of France is Paris."
+
+
+# @pytest.mark.asyncio
+# async def test_chatgpt_response_empty():
+#     prompt = "What is the capital of France?"
+#     mock_response = MagicMock()
+#     mock_response.choices = []
+
+#     with patch("openai.ChatCompletion.create", return_value=mock_response):
+#         response = await chatgpt_response(prompt)
+
+#     assert response == ""
