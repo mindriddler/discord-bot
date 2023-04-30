@@ -2,10 +2,10 @@ version: '3.8'
 
 services:
   chatgpt-discord-bot:
-    image: ghcr.io/mindriddler/chatgpt-discord-bot:latest
+    image: ghcr.io/mindriddler/discord-bot:latest
     env_file:
       - ../.env
-    container_name: chatgpt-discord-bot
+    container_name: discord-bot
     volumes:
       - ./Discord_bot/logs/:/src/logs
       - ./Discord_bot/config:/src/config
