@@ -11,6 +11,7 @@ RUN apk update
 RUN apk upgrade
 
 # Install the Python dependencies
+RUN pip install --upgrade-pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set the environment variable for the Discord token and OpenAI API key
