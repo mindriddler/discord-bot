@@ -18,5 +18,9 @@
     },
     "schedule": {
         "url": "https://cloud.timeedit.net/nackademin/web/1/ri66F5ZQ1Q68e5QZ05Q7dt2QZ78ZZ7791u5YZ6Qy875tAn8bE8CQEAE084BBE7C2D0D915791.ics"
+    },
+    "github": {
+        "user_stats": "https://github-readme-stats.vercel.app/api?username={}&show_icons=true&theme=dark&hide_border=true",
+        "streak_stats": "https://streak-stats.demolab.com/?user={}&theme=dark&hide_border=true"
     }
 }
