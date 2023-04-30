@@ -15,3 +15,4 @@ pytest-asyncio==0.21.0
 icalendar==5.0.5
 svglib==1.5.1
 reportlab==3.6.13
+jsonschema==4.17.3
