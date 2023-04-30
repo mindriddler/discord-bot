@@ -7,5 +7,5 @@ services:
       - ../.env
     container_name: discord-bot
     volumes:
-      - ./Discord_bot/logs/:/src/logs
-      - ./Discord_bot/config:/src/config
+      - ./Discord_bot/logs/:/logs
+      - ./Discord_bot/config:/config
