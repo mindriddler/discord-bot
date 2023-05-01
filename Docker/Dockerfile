@@ -1,11 +1,6 @@
 # Use the official Python image as the base image
 FROM --platform=linux/amd64 python:3.11.2-alpine3.17
 
-
-
-
-
-
 RUN apk update
 RUN apk upgrade
 
