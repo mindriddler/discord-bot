@@ -11,7 +11,7 @@ RUN apk update
 RUN apk upgrade
 
 # Install system-level dependencies
-RUN apk add --no-cache jpeg-dev zlib-dev
+RUN apk add --no-cache jpeg-dev zlib-dev docker
 RUN apk add --no-cache build-base libffi-dev openssl-dev freetype-dev
 
 # Install the Python dependencies
