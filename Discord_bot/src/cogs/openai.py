@@ -44,7 +44,7 @@ class OpenAI(commands.Cog):
                 logger.command(f"{str(interaction.user)} >> {self.bot.user}: {message}")
                 await interaction.response.defer()
                 bot_response = await chatgpt_response(prompt=message)
-                await interaction.followup.send(f"{interaction.user.mention}: {bot_response}")
+                await interaction.followup.send(f"{interaction.user.mention}: {bot_response}", ephemeral=True)
                 logger.command(f"{self.bot.user} >> {str(interaction.user)}: {bot_response}")
         except Exception as e:
             logger.error(f"Error in chatgpt command: {str(e)}")
