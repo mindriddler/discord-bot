@@ -1,13 +1,16 @@
 # import shutil
+import datetime
 import json
 import logging
 import logging.handlers
-import os
 from io import BytesIO
-
+import os
+import jsonschema
 import requests
 from reportlab.graphics import renderPM
 from svglib.svglib import svg2rlg
+from config_validation_schema import schema as CONFIG_SCHEMA
+from jsonschema import validate
 
 # CONSTANTS
 
@@ -91,9 +94,14 @@ def discordloghandler():
     logger = logging.getLogger("discord")
     logger.setLevel(logging.DEBUG)
     logging.getLogger("discord.http").setLevel(logging.INFO)
+    log = read_config("logger")
+
+    # Format the filename using the current time
+    current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
+    filename = log["log_path_info"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
 
     handler = logging.handlers.RotatingFileHandler(
-        filename="logs/info.log",
+        filename=filename,
         encoding="utf-8",
         maxBytes=32 * 1024 * 1024,  # 32 MiB
         backupCount=5,  # Rotate through 5 files
@@ -104,17 +112,45 @@ def discordloghandler():
     logger.addHandler(handler)
 
 
-def read_config(section, file_path=None):
-    if file_path is None:
-        # Get the directory of the current script/module
-        script_dir = os.path.dirname(os.path.realpath(__file__))
+def read_config(section):
+    """
+    Returns specified section of config.json as a dictionary
+    """
+    default_path = f"{get_bot_directory()}/config/config.json"
+    try:
+        with open(os.environ.get("BOT_CONFIG_FILE", default_path), "r", encoding="utf-8") as file:
+            config_data = json.load(file)
+            validate_config(config_data, schema=CONFIG_SCHEMA)
+            if section in config_data:
+                return config_data[section]
+            else:
+                raise ValueError(f"Section '{section}' not found in config file")
+    except (json.decoder.JSONDecodeError, jsonschema.exceptions.ValidationError) as error:
+        print(error)
+        raise
 
-        # Construct the config file path relative to the script/module directory
-        file_path = os.path.join(script_dir, "..", "config", "config.json")
 
-    with open(file_path, "r", encoding="UTF-8") as file:
-        config_data = json.load(file)
+def get_bot_directory() -> str:
+    """
+    Returns the directory that bot.py is in.
+    """
 
-    if section in config_data:
-        return config_data[section]
-    raise ValueError(f"The section '{section}' was not found in the configuration file.")
+    return os.path.dirname(os.path.realpath(__file__))
+
+
+def validate_config(config: dict, schema: dict) -> str | None:
+    """
+    Check that all required fields are present in the configuration file
+
+    Args:
+        config (dict): The configuration file
+        schema (dict): The schema to validate against
+
+    Returns:
+        None
+
+    Raises:
+        jsonschema.exceptions.ValidationError: If the configuration file is missing required fields
+    """
+
+    validate(instance=config, schema=schema)

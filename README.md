@@ -10,6 +10,7 @@
   - [Background](#background)
   - [Description](#description)
   - [Usage](#usage)
+  - [Knows issues](#knows-issues)
   - [Coming features](#coming-features)
   - [Contributing](#contributing)
   - [Installation](#installation)
@@ -71,6 +72,10 @@ Example:
 Sender: /chatgpt What is the capital of France?
 Theodore: @Sender: The capital of France is Paris.
 ```
+
+## Knows issues
+
+* When running `/github_stats` the console will spit out `x_order_2: colinear!`
 ## Coming features
 
 * Give the ChatGPT part of the bot a memory
@@ -131,20 +136,21 @@ The file is located in the `src/config` folder.
 
 <h5> The two top values NEEDS to be set, otherwise the bot will not listen to anything </h5>
 
-| Variable                     | What it is                                                           | Default                                                                                              |
-| ---------------------------- | -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| discord.dedicated_channel_id | The ID of the dedicated channel for the bot to listen to messages on | None                                                                                                 |
-| discord.log_folder           | The folder where logs will be stored                                 | logs                                                                                                 |
-| discord.log_path_channel     | The path for channel logs                                            | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
-| discord.log_path_command     | The path for command logs                                            | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss-SSS!UTC}.log </details> |
+| Variable                     | What it is                                                           | Default                                                                                          |
+| ---------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| discord.dedicated_channel_id | The ID of the dedicated channel for the bot to listen to messages on | None                                                                                             |
+| discord.log_folder           | The folder where logs will be stored                                 | logs                                                                                             |
+| discord.log_path_channel     | The path for channel logs                                            | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log </details> |
+| discord.log_path_command     | The path for command logs                                            | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log </details> |
 
 #### Logger settings
-| Variable                      | What it is                                             | Default   |
-| ----------------------------- | ------------------------------------------------------ | --------- |
-| logger.log_level              | The level of logging to use                            | DEBUG     |
-| logger.log_rotation           | The maximum size of each log file before it is rotated | 100000000 |
-| logger.log_retention          | The length of time to retain log files for             | 730 days  |
-| logger.log_compression_format | The format of the compressed log files                 | zip       |
+| Variable                      | What it is                                             | Default                                                                                       |
+| ----------------------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| logger.log_path_info          | The path for info logs                                 | <details> <summary> *Show* </summary> logs/info_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log </details> |
+| logger.log_level              | The level of logging to use                            | DEBUG                                                                                         |
+| logger.log_rotation           | The maximum size of each log file before it is rotated | 100000000                                                                                     |
+| logger.log_retention          | The length of time to retain log files for             | 730 days                                                                                      |
+| logger.log_compression_format | The format of the compressed log files                 | zip                                                                                           |
 
 #### Schedule settings
 | Variable     | What it is                 | Default |
@@ -168,6 +174,7 @@ You can change these values to whatever (as long as they're valid) you want and 
 OPENAI_API_KEY=<your api key>
 DISCORD_TOKEN=<your bot token>
 ```
+4. Make your desired changes in `Discord_bot/src/config/config.json`
 4. Change your working directory to `Docker`
 5. Run `docker-compose up -d`
 

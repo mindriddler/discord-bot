@@ -5,7 +5,7 @@ from functools import partial
 import openai
 from dotenv import load_dotenv
 
-from utils.utils import read_config
+from helperfunctions import read_config
 
 load_dotenv()
 

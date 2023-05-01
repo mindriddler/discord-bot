@@ -8,7 +8,7 @@ from functools import partialmethod
 
 import loguru
 
-from utils.utils import read_config
+from helperfunctions import read_config
 
 logger_config = read_config("logger")
 
@@ -19,10 +19,10 @@ class DiscordBotLogger:
     def __init__(
         self,
         log_level: str = logger_config["log_level"],
-        _log_path_channel: str = "logs/channel.log",
-        _log_path_command: str = "logs/command.log",
-        _log_path_dm: str = "logs/dm_logs/dm.log",
-        _log_path: str = "logs/info.log",
+        _log_path_channel: str = "/logs/channel.log",
+        _log_path_command: str = "/logs/command.log",
+        _log_path_dm: str = "/logs/dm_logs/dm.log",
+        _log_path_info: str = logger_config["log_path_info"],
         log_rotation: int | str | datetime.timedelta | datetime.time = logger_config["log_rotation"],
         log_retention: str = logger_config["log_retention"],
         log_compression_format: str = logger_config["log_compression_format"],
@@ -33,7 +33,7 @@ class DiscordBotLogger:
         self.log_path_channel = _log_path_channel
         self.log_path_command = _log_path_command
         self.log_path_dm = _log_path_dm
-        self.log_path = _log_path
+        self.log_path_info = _log_path_info
         self.rotation = log_rotation
         self.retention = log_retention
         self.compression_format = log_compression_format
@@ -56,7 +56,7 @@ class DiscordBotLogger:
             self.custom_levels.append(name)
 
     def get_dm_logger_for_user(self, user_id: str) -> loguru.Logger:
-        dm_log_path = f"logs/dm_logs/{user_id}.log"
+        dm_log_path = f"/logs/dm_logs/{user_id}.log"
         logger = loguru.logger
         custom_level_name = f"{user_id}"
         if not hasattr(loguru.logger.__class__, custom_level_name):
@@ -89,7 +89,7 @@ class DiscordBotLogger:
                 logger.level("CHANNEL", no=15, color="<green>", icon="-")
 
             # Add new handler with custom formatter
-            logger.add(self.log_path, format=self._formatter, level=self.log_level)
+            logger.add(self.log_path_info, format=self._formatter, level=self.log_level)
             logger.add(sys.stdout, format=self._formatter, level=self.log_level)
             logger.add(
                 self.log_path_command,
