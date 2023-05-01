@@ -1,18 +1,24 @@
 # Use the official Python image as the base image
 FROM --platform=linux/amd64 python:3.11.2-alpine3.17
 
-# Set the working directory
-WORKDIR /src
 
-# Copy the requirements file into the container
-COPY ./Discord_bot/requirements.txt ./
+
+
+
 
 RUN apk update
 RUN apk upgrade
 
 # Install system-level dependencies
+RUN curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-20.10.11.tgz | tar zxvf - --strip 1 -C /usr/local/bin docker/docker
 RUN apk add --no-cache jpeg-dev zlib-dev docker
 RUN apk add --no-cache build-base libffi-dev openssl-dev freetype-dev
+
+# Set the working directory
+WORKDIR /src
+
+# Copy the requirements file into the container
+COPY ./Discord_bot/requirements.txt ./
 
 # Install the Python dependencies
 RUN pip install --upgrade pip
@@ -29,3 +35,5 @@ COPY ./Discord_bot/src .
 
 # Run the application
 CMD ["/usr/local/bin/python", "bot.py"]
+
+FROM python:3.11.2-alpine3.17
