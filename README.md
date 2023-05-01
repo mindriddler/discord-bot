@@ -10,6 +10,7 @@
   - [Background](#background)
   - [Description](#description)
   - [Usage](#usage)
+  - [Knows issues](#knows-issues)
   - [Coming features](#coming-features)
   - [Contributing](#contributing)
   - [Installation](#installation)
@@ -71,6 +72,10 @@ Example:
 Sender: /chatgpt What is the capital of France?
 Theodore: @Sender: The capital of France is Paris.
 ```
+
+## Knows issues
+
+* When running `/github_stats` the console will spit out `x_order_2: colinear!`
 ## Coming features
 
 * Give the ChatGPT part of the bot a memory
