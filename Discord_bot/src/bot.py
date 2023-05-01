@@ -22,13 +22,16 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix="/", intents=intents, help_command=None)
 
-dedicated_channel_id: int = discord_config["dedicated_channel_id"]
 bot_logger = DiscordBotLogger(
     enqueue=True,
     _log_path_channel=discord_config["log_path_channel"],
     _log_path_command=discord_config["log_path_command"],
 )
 logger = bot_logger.get_logger()
+dedicated_channel_id: int = discord_config["dedicated_channel_id"]
+if dedicated_channel_id == 0:
+    logger.critical("No dedicated channel in config.json!")
+    exit()
 discordloghandler()
 
 chatgpt = OpenAIFunctions(bot)
@@ -119,7 +122,7 @@ async def check_all_cogs_loaded(cog_bot):
     logger.info("All cogs have been loaded successfully")
     channel = bot.get_channel(dedicated_channel_id)
     if channel:
-        await channel.send("Hello everyone! Im single and ready to mingle!")
+        await channel.send("Hello everyone! Im here to save your day!")
 
 
 @bot.event
