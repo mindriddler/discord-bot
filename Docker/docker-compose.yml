@@ -9,5 +9,3 @@ services:
     volumes:
       - ./Discord_bot/config:/src/config
       - ./Discord_bot/logs/:/src/logs
-    command: >
-      sh -c "python bot.py & docker cp discord-bot:/src/config/config.json ./Discord_bot/config/ && wait"
