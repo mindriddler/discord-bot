@@ -30,5 +30,3 @@ COPY ./Discord_bot/src .
 
 # Run the application
 CMD ["/usr/local/bin/python", "bot.py"]
-
-FROM python:3.11.2-alpine3.17
