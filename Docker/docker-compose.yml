@@ -2,10 +2,12 @@ version: '3.8'
 
 services:
   discord-bot:
-    image: ghcr.io/mindriddler/discord-bot:latest
-    env_file:
-      - ../.env
     container_name: discord-bot
+    image: ghcr.io/mindriddler/discord-bot-dev:mindriddler
+    env_file:
+      - .env
     volumes:
-      - ./Discord_bot/logs/:/logs
-      - ./Discord_bot/config:/config
+      - ./Discord_bot/config:/src/config
+      - ./Discord_bot/logs/:/src/logs
+    command: >
+      sh -c "python bot.py & docker cp discord-bot:/src/config/config.json ./Discord_bot/config/ && wait"
