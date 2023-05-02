@@ -5,7 +5,7 @@
         "max_tokens": 4000
     },
     "discord": {
-        "dedicated_channel_id": 1095796880706908160,
+        "dedicated_channel_id": "",
         "log_folder": "/logs",
         "log_path_channel": "logs/channel_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
         "log_path_command": "logs/command_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
