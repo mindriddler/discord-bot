@@ -11,6 +11,7 @@ from reportlab.graphics import renderPM
 from svglib.svglib import svg2rlg
 from config_validation_schema import schema as CONFIG_SCHEMA
 from jsonschema import validate
+from loguru import logger as tmp_logger
 
 # CONSTANTS
 
@@ -93,7 +94,7 @@ def split_message(message, max_length=2000):
 def discordloghandler():
     log = read_config("discord")
     logger = logging.getLogger("discord")
-    logger.setLevel(getattr(logging, log["discord_logger_level"]))
+    logger.setLevel(getattr(logging, log["discord_log_level"]))
 
     # Format the filename using the current time
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
@@ -115,17 +116,20 @@ def read_config(section):
     """
     Returns specified section of config.json as a dictionary
     """
+    tmp_logger.info(f"Reading config for '{section}'")
     default_path = f"{get_bot_directory()}/config/config.json"
+    tmp_logger.debug(default_path)
     try:
         with open(os.environ.get("BOT_CONFIG_FILE", default_path), "r", encoding="utf-8") as file:
             config_data = json.load(file)
+            tmp_logger.debug(config_data)
             validate_config(config_data, schema=CONFIG_SCHEMA)
             if section in config_data:
                 return config_data[section]
             else:
                 raise ValueError(f"Section '{section}' not found in config file")
     except (json.decoder.JSONDecodeError, jsonschema.exceptions.ValidationError) as error:
-        print(error)
+        tmp_logger.critical(error)
         raise
 
 

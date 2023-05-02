@@ -29,7 +29,7 @@ bot_logger = DiscordBotLogger(
 )
 logger = bot_logger.get_logger()
 dedicated_channel_id: int = discord_config["dedicated_channel_id"]
-if dedicated_channel_id == 0:
+if dedicated_channel_id == "":
     logger.critical("No dedicated channel in config.json!")
     exit()
 discordloghandler()
