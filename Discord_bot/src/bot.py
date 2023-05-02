@@ -100,10 +100,10 @@ async def main():
         except KeyboardInterrupt:
             pass
         finally:
-            logger.info("CTRL+C executed. Shutting down gracefully...")
+            logger.warning("CTRL+C executed. Shutting down gracefully...")
             await send_shutdown_message()
             await bot.close()
-            logger.info("Shutdown complete")
+            logger.warning("Shutdown complete")
 
     await shutdown_event.wait()
 

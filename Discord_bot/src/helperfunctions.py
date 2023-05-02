@@ -97,14 +97,15 @@ def discordloghandler():
     logger.setLevel(getattr(logging, log["discord_log_level"]))
 
     # Format the filename using the current time
+    # This has to be done in order to get the same type of filename for all the log files
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
     filename = log["log_path_discord"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
 
     handler = logging.handlers.RotatingFileHandler(
         filename=filename,
         encoding="utf-8",
-        maxBytes=32 * 1024 * 1024,  # 32 MiB
-        backupCount=5,  # Rotate through 5 files
+        maxBytes=32 * 1024 * 1024,
+        backupCount=5,
     )
     dt_fmt = "%Y-%m-%d %H:%M:%S"
     formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
@@ -129,7 +130,7 @@ def read_config(section):
             else:
                 raise ValueError(f"Section '{section}' not found in config file")
     except (json.decoder.JSONDecodeError, jsonschema.exceptions.ValidationError) as error:
-        tmp_logger.critical(error)
+        tmp_logger.error(error)
         raise
 
 
