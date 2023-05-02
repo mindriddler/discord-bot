@@ -91,14 +91,14 @@ def split_message(message, max_length=2000):
 
 
 def discordloghandler():
+    log = read_config("discord")
+    log_level = log["discord_logger_level"]
     logger = logging.getLogger("discord")
-    logger.setLevel(logging.DEBUG)
-    logging.getLogger("discord.http").setLevel(logging.INFO)
-    log = read_config("logger")
+    logger.setLevel(getattr(logging, log_level))
 
     # Format the filename using the current time
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
-    filename = log["log_path_info"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
+    filename = log["log_path_discord"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
 
     handler = logging.handlers.RotatingFileHandler(
         filename=filename,

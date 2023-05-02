@@ -5,10 +5,12 @@
         "max_tokens": 4000
     },
     "discord": {
-        "dedicated_channel_id": 0,
+        "dedicated_channel_id": 1095796880706908160,
         "log_folder": "/logs",
         "log_path_channel": "logs/channel_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
-        "log_path_command": "logs/command_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log"
+        "log_path_command": "logs/command_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
+        "log_path_discord": "logs/discord_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
+        "discord_logger_level": "DEBUG"
     },
     "logger": {
         "log_path_info": "logs/info_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
@@ -18,7 +20,7 @@
         "log_compression_format": "zip"
     },
     "schedule": {
-        "url": ""
+        "url": "https://cloud.timeedit.net/nackademin/web/1/ri66F5ZQ1Q68e5QZ05Q7dt2QZ78ZZ7791u5YZ6Qy875tAn8bE8CQEAE084BBE7C2D0D915791.ics"
     },
     "github": {
         "user_stats": "https://github-readme-stats.vercel.app/api?username={}&show_icons=true&theme=dark&hide_border=true",

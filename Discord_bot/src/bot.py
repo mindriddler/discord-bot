@@ -61,7 +61,7 @@ async def load_cog(cog_bot, cog_name):
 
 
 async def load(cog_bot):
-    for filename in os.listdir("./cogs"):
+    for filename in os.listdir("cogs"):
         if filename.endswith(".py"):
             cog_name = filename[:-3]
             await load_cog(cog_bot, cog_name)
