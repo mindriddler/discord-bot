@@ -35,7 +35,7 @@ async def chatgpt_response(prompt):
     return prompt_response.strip()
 
 
-async def image_generator(prompt, size, num_of_pictures):
+async def image_generator(prompt, size, num_of_pictures, logger):
     loop = asyncio.get_running_loop()
     try:
         response = await loop.run_in_executor(
@@ -50,6 +50,7 @@ async def image_generator(prompt, size, num_of_pictures):
             ),
         )
     except openai.error.InvalidRequestError as e:
+        logger.error(e)
         return f"Error: {e}"
     response_list = []
     if len(response["data"]) > 1:
