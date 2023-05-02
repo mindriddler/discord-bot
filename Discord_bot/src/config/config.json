@@ -6,7 +6,7 @@
     },
     "discord": {
         "dedicated_channel_id": "",
-        "log_folder": "/logs",
+        "log_folder": "logs",
         "log_path_channel": "logs/channel_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
         "log_path_command": "logs/command_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
         "log_path_discord": "logs/discord_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
