@@ -11,6 +11,7 @@ from reportlab.graphics import renderPM
 from svglib.svglib import svg2rlg
 from config_validation_schema import schema as CONFIG_SCHEMA
 from jsonschema import validate
+from loguru import logger as tmp_logger
 
 # CONSTANTS
 
@@ -91,20 +92,20 @@ def split_message(message, max_length=2000):
 
 
 def discordloghandler():
+    log = read_config("discord")
     logger = logging.getLogger("discord")
-    logger.setLevel(logging.DEBUG)
-    logging.getLogger("discord.http").setLevel(logging.INFO)
-    log = read_config("logger")
+    logger.setLevel(getattr(logging, log["discord_log_level"]))
 
     # Format the filename using the current time
+    # This has to be done in order to get the same type of filename for all the log files
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
-    filename = log["log_path_info"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
+    filename = log["log_path_discord"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
 
     handler = logging.handlers.RotatingFileHandler(
         filename=filename,
         encoding="utf-8",
-        maxBytes=32 * 1024 * 1024,  # 32 MiB
-        backupCount=5,  # Rotate through 5 files
+        maxBytes=32 * 1024 * 1024,
+        backupCount=5,
     )
     dt_fmt = "%Y-%m-%d %H:%M:%S"
     formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
@@ -116,17 +117,20 @@ def read_config(section):
     """
     Returns specified section of config.json as a dictionary
     """
+    tmp_logger.info(f"Reading config for '{section}'")
     default_path = f"{get_bot_directory()}/config/config.json"
+    tmp_logger.debug(default_path)
     try:
         with open(os.environ.get("BOT_CONFIG_FILE", default_path), "r", encoding="utf-8") as file:
             config_data = json.load(file)
+            tmp_logger.debug(config_data)
             validate_config(config_data, schema=CONFIG_SCHEMA)
             if section in config_data:
                 return config_data[section]
             else:
                 raise ValueError(f"Section '{section}' not found in config file")
     except (json.decoder.JSONDecodeError, jsonschema.exceptions.ValidationError) as error:
-        print(error)
+        tmp_logger.error(error)
         raise
 
 

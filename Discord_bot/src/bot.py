@@ -29,7 +29,7 @@ bot_logger = DiscordBotLogger(
 )
 logger = bot_logger.get_logger()
 dedicated_channel_id: int = discord_config["dedicated_channel_id"]
-if dedicated_channel_id == 0:
+if dedicated_channel_id == "":
     logger.critical("No dedicated channel in config.json!")
     exit()
 discordloghandler()
@@ -61,7 +61,7 @@ async def load_cog(cog_bot, cog_name):
 
 
 async def load(cog_bot):
-    for filename in os.listdir("./cogs"):
+    for filename in os.listdir("cogs"):
         if filename.endswith(".py"):
             cog_name = filename[:-3]
             await load_cog(cog_bot, cog_name)
@@ -100,10 +100,10 @@ async def main():
         except KeyboardInterrupt:
             pass
         finally:
-            logger.info("CTRL+C executed. Shutting down gracefully...")
+            logger.warning("CTRL+C executed. Shutting down gracefully...")
             await send_shutdown_message()
             await bot.close()
-            logger.info("Shutdown complete")
+            logger.warning("Shutdown complete")
 
     await shutdown_event.wait()
 

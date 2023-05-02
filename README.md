@@ -139,9 +139,11 @@ The file is located in the `src/config` folder.
 | Variable                     | What it is                                                           | Default                                                                                          |
 | ---------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | discord.dedicated_channel_id | The ID of the dedicated channel for the bot to listen to messages on | None                                                                                             |
-| discord.log_folder           | The folder where logs will be stored                                 | logs                                                                                             |
+| discord.log_folder           | The folder where logs will be stored                                 | /logs                                                                                            |
 | discord.log_path_channel     | The path for channel logs                                            | <details> <summary> *Show* </summary> logs/channel_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log </details> |
 | discord.log_path_command     | The path for command logs                                            | <details> <summary> *Show* </summary> logs/command_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log </details> |
+| discord.log_path_discord     | The path for discord logs                                            | <details> <summary> *Show* </summary> logs/discord_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log </details> |
+| discord.log_level            | Log level for the discord logger                                     | DEBUG                                                                                            |
 
 #### Logger settings
 | Variable                      | What it is                                             | Default                                                                                       |
