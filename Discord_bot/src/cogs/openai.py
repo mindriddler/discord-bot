@@ -52,9 +52,8 @@ class OpenAI(commands.Cog):
 
     @app_commands.command(name="dm", description=COMMAND_DESCRIPTIONS["dm"])
     async def dm(self, interaction: discord.Interaction, message: str = None):
-        logger.command(
-            f"Command '{interaction.data['name']}' executed by {str(interaction.user)} with message: {message}"
-        )
+        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
+        logger.command(f"Arguments used - Message: '{message}'")
 
         if message is None:
             message = "This is the default message when the user doesn't provide one."
@@ -72,9 +71,8 @@ class OpenAI(commands.Cog):
         size: str = None,
         num_of_pictures: int = None,
     ):
-        logger.command(
-            f"Command '{interaction.data['name']}' executed by {str(interaction.user)} with message: {message}"
-        )
+        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
+        logger.command(f"Arguments used - Message: '{message}', Size: '{size}' and num_of_pics: '{num_of_pictures}'")
 
         if message is None:
             await interaction.response.send_message(
@@ -90,8 +88,8 @@ class OpenAI(commands.Cog):
 
         await interaction.response.defer(ephemeral=True)
 
-        response = await image_generator(message, size, num_of_pictures)
-        if response.startswith("Error"):
+        response = await image_generator(message, size, num_of_pictures, logger)
+        if type(response) is not list:
             await interaction.followup.send(response, ephemeral=True)
         else:
             for image_url in response:
