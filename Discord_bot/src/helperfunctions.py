@@ -142,6 +142,7 @@ def read_config(section):
     """
     tmp_logger.info(f"Reading config for '{section}'")
     default_path = f"{get_bot_directory()}/config/config.json"
+
     tmp_logger.debug(default_path)
     try:
         with open(os.environ.get("BOT_CONFIG_FILE", default_path), "r", encoding="utf-8") as file:
@@ -149,6 +150,7 @@ def read_config(section):
             tmp_logger.debug(config_data)
             validate_config(config_data, schema=CONFIG_SCHEMA)
             if section in config_data:
+                tmp_logger.debug(config_data[section])
                 return config_data[section]
             else:
                 raise ValueError(f"Section '{section}' not found in config file")
