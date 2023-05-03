@@ -5,16 +5,18 @@
         "max_tokens": 4000
     },
     "discord": {
-        "dedicated_channel_id": "",
+        "dedicated_channel_id": 1095796880706908160,
         "log_folder": "logs",
         "log_path_channel": "logs/channel_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
         "log_path_command": "logs/command_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
         "log_path_discord": "logs/discord_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
-        "discord_log_level": "DEBUG"
+        "log_level_discord": "DEBUG"
     },
     "logger": {
         "log_path_info": "logs/info_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
-        "log_level": "DEBUG",
+        "log_path_openai": "logs/openai_{time:YYYY-MM-DD-HH-mm-ss!UTC}.log",
+        "log_level_info": "DEBUG",
+        "log_level_openai": "DEBUG",
         "log_rotation": 100000000,
         "log_retention": "730 days",
         "log_compression_format": "zip"

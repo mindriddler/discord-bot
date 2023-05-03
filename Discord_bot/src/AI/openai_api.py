@@ -43,7 +43,6 @@ async def image_generator(prompt, size, num_of_pictures, logger):
             partial(
                 openai.Image.create,
                 prompt=prompt,
-                model="image-alpha-001",
                 size=size,
                 response_format="url",
                 n=num_of_pictures,

@@ -6,6 +6,7 @@ import logging.handlers
 from io import BytesIO
 import os
 import jsonschema
+
 import requests
 from reportlab.graphics import renderPM
 from svglib.svglib import svg2rlg
@@ -91,15 +92,37 @@ def split_message(message, max_length=2000):
     return messages
 
 
-def discordloghandler():
-    log = read_config("discord")
-    logger = logging.getLogger("discord")
-    logger.setLevel(getattr(logging, log["discord_log_level"]))
+def openailoghandler():
+    filename = read_config("logger")
+    logger = logging.getLogger("openai")
+    logger.setLevel(getattr(logging, filename["log_level_openai"]))
 
     # Format the filename using the current time
     # This has to be done in order to get the same type of filename for all the log files
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
-    filename = log["log_path_discord"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
+    filename = filename["log_path_openai"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
+
+    handler = logging.handlers.RotatingFileHandler(
+        filename=filename,
+        encoding="utf-8",
+        maxBytes=32 * 1024 * 1024,
+        backupCount=5,
+    )
+    dt_fmt = "%Y-%m-%d %H:%M:%S"
+    formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+
+def discordloghandler():
+    filename = read_config("discord")
+    logger = logging.getLogger("discord")
+    logger.setLevel(getattr(logging, filename["log_level_discord"]))
+
+    # Format the filename using the current time
+    # This has to be done in order to get the same type of filename for all the log files
+    current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
+    filename = filename["log_path_discord"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
 
     handler = logging.handlers.RotatingFileHandler(
         filename=filename,

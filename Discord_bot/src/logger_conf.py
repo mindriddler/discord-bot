@@ -18,7 +18,7 @@ class DiscordBotLogger:
 
     def __init__(
         self,
-        log_level: str = logger_config["log_level"],
+        log_level: str = logger_config["log_level_info"],
         _log_path_channel: str = "/logs/channel.log",
         _log_path_command: str = "/logs/command.log",
         _log_path_dm: str = "/logs/dm_logs/dm.log",

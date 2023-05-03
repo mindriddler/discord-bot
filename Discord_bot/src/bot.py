@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from AI.openai_api import chatgpt_response
 from AI.openai_functions import OpenAIFunctions
 from logger_conf import DiscordBotLogger
-from helperfunctions import discordloghandler, read_config, split_message
+from helperfunctions import discordloghandler, read_config, split_message, openailoghandler
 
 load_dotenv()
 discord_token = os.getenv("DISCORD_TOKEN")
@@ -33,6 +33,7 @@ if dedicated_channel_id == "":
     logger.critical("No dedicated channel in config.json!")
     exit()
 discordloghandler()
+openailoghandler()
 
 chatgpt = OpenAIFunctions(bot)
 
