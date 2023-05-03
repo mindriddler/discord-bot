@@ -139,6 +139,10 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:
         return
+    if message.content.startswith("#") is True:
+        logger.info(f"{message.author} used prefix '#' in message '{message.content[1:]}'")
+        logger.info(f"Message will be ignored by {bot.user}")
+        return
 
     user_message = message.content
 
