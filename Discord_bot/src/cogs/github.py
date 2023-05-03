@@ -7,6 +7,7 @@ from helperfunctions import COMMAND_DESCRIPTIONS, convert_svg_url_to_png, read_c
 
 logger = DiscordBotLogger().get_logger()
 github_config = read_config("github")
+config = read_config("discord")
 
 
 class Github(commands.Cog):
@@ -29,8 +30,10 @@ class Github(commands.Cog):
         if username is None:
             username = github_config["default_user"]
             logger.warning(f"No username supplied! Defaulting to {username}")
-
-        await interaction.response.defer(ephemeral=True)
+        if interaction.channel.id == config["dedicated_channel_id"]:
+            await interaction.response.defer()
+        else:
+            await interaction.response.defer(ephemeral=True)
 
         urls = {
             "user_stats": github_config["user_stats"].format(username),
@@ -54,7 +57,10 @@ class Github(commands.Cog):
         ]
 
         for file, embed in zip(files, embeds):
-            await interaction.followup.send(embed=embed, files=[file], ephemeral=True)
+            if interaction.channel.id == config["dedicated_channel_id"]:
+                await interaction.followup.send(embed=embed, files=[file])
+            else:
+                await interaction.followup.send(embed=embed, files=[file], ephemeral=True)
 
 
 async def setup(bot):

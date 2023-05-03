@@ -13,6 +13,7 @@ from helperfunctions import COMMAND_DESCRIPTIONS, read_config
 logger = DiscordBotLogger().get_logger()
 
 schedule_config = read_config("schedule")
+config = read_config("discord")
 
 
 class Schedule(commands.Cog):
@@ -34,6 +35,7 @@ class Schedule(commands.Cog):
         if num_of_days is None:
             num_of_days = 7
             logger.warning("No number of days supplied!")
+            logger.debug("Defaulting to 7 number of days")
         elif num_of_days > 20:
             logger.warning("To high number!")
             message = "Max 20 days!"
@@ -41,8 +43,8 @@ class Schedule(commands.Cog):
 
         url = schedule_config["url"]
         if url == "":
-            message = "No url supplied!"
-            logger.warning(message)
+            message = "No url supplied in src/config.json!"
+            logger.error(message)
             await interaction.response.send_message(message, ephemeral=True)
         else:
             response = requests.get(url, timeout=10)
@@ -105,7 +107,10 @@ class Schedule(commands.Cog):
                     message += f"         Course: {event['course']}\n"
                     message += f"         Classroom: {event['location']}\n"
 
-            await interaction.response.send_message(message, ephemeral=True)
+            if interaction.channel.id == config["dedicated_channel_id"]:
+                await interaction.followup.send(message)
+            else:
+                await interaction.followup.send(message, ephemeral=True)
 
 
 async def setup(bot):

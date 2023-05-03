@@ -6,10 +6,11 @@ from discord.ext import commands
 
 from AI.openai_api import chatgpt_response, image_generator
 from logger_conf import DiscordBotLogger
-from helperfunctions import COMMAND_DESCRIPTIONS, DEFAULT_DM_MESSAGE
+from helperfunctions import COMMAND_DESCRIPTIONS, DEFAULT_DM_MESSAGE, read_config
 
 
 logger = DiscordBotLogger().get_logger()
+config = read_config("discord")
 
 
 class OpenAI(commands.Cog):
@@ -42,10 +43,17 @@ class OpenAI(commands.Cog):
                 )
             else:
                 logger.command(f"{str(interaction.user)} >> {self.bot.user}: {message}")
-                await interaction.response.defer()
-                bot_response = await chatgpt_response(prompt=message)
-                await interaction.followup.send(f"{interaction.user.mention}: {bot_response}", ephemeral=True)
-                logger.command(f"{self.bot.user} >> {str(interaction.user)}: {bot_response}")
+                if interaction.channel.id == config["dedicated_channel_id"]:
+                    await interaction.response.defer()
+                    bot_response = await chatgpt_response(prompt=message)
+                    await interaction.followup.send(f"{interaction.user.mention}: {bot_response}")
+                    logger.command(f"{self.bot.user} >> {str(interaction.user)}: {bot_response}")
+                else:
+                    await interaction.response.defer(ephemeral=True)
+                    bot_response = await chatgpt_response(prompt=message)
+                    await interaction.followup.send(f"{interaction.user.mention}: {bot_response}", ephemeral=True)
+                    logger.command(f"{self.bot.user} >> {str(interaction.user)}: {bot_response}")
+
         except Exception as e:
             logger.error(f"Error in chatgpt command: {str(e)}")
             logger.error(traceback.format_exc())
@@ -86,7 +94,10 @@ class OpenAI(commands.Cog):
         if num_of_pictures is None:
             num_of_pictures = 1
 
-        await interaction.response.defer(ephemeral=True)
+        if interaction.channel.id == config["dedicated_channel_id"]:
+            await interaction.response.defer()
+        else:
+            await interaction.response.defer(ephemeral=True)
 
         response = await image_generator(message, size, num_of_pictures, logger)
         if type(response) is not list:
@@ -96,7 +107,10 @@ class OpenAI(commands.Cog):
                 logger.info(image_url)
                 embed = discord.Embed()
                 embed.set_image(url=image_url)
-                await interaction.followup.send(embed=embed, ephemeral=True)
+                if interaction.channel.id == config["dedicated_channel_id"]:
+                    await interaction.followup.send(embed=embed)
+                else:
+                    await interaction.followup.send(embed=embed, ephemeral=True)
 
 
 async def setup(bot, ai):
