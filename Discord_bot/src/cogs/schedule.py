@@ -47,6 +47,10 @@ class Schedule(commands.Cog):
             logger.error(message)
             await interaction.response.send_message(message, ephemeral=True)
         else:
+            if interaction.channel.id == config["dedicated_channel_id"]:
+                await interaction.response.defer()
+            else:
+                await interaction.response.defer(ephemeral=True)
             response = requests.get(url, timeout=10)
             response.raise_for_status()
             ical_data = response.text
