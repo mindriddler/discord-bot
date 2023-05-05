@@ -13,6 +13,7 @@ from helperfunctions import read_config
 logger_config = read_config("logger")
 
 
+# just a test
 class DiscordBotLogger:
     _logger = None  # Add this line
 
