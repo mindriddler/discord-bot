@@ -9,6 +9,7 @@ logger = DiscordBotLogger().get_logger()
 
 
 class General(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -27,10 +28,13 @@ class General(commands.Cog):
         Args:
             interaction (discord.Interaction): The interaction object representing the user command.
         """
-        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
+        logger.command(
+            f"Command '{interaction.data['name']}' executed by {str(interaction.user)}"
+        )
         await interaction.response.send_message(HELP_STR, ephemeral=True)
 
-    @app_commands.command(name="about", description=COMMAND_DESCRIPTIONS["about"])
+    @app_commands.command(name="about",
+                          description=COMMAND_DESCRIPTIONS["about"])
     async def about(self, interaction: discord.Interaction):
         """
         Sends an about message to the user.
@@ -38,7 +42,9 @@ class General(commands.Cog):
         Args:
             interaction (discord.Interaction): The interaction object representing the user command.
         """
-        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)}")
+        logger.command(
+            f"Command '{interaction.data['name']}' executed by {str(interaction.user)}"
+        )
         await interaction.response.send_message(ABOUT_STR, ephemeral=True)
 
 

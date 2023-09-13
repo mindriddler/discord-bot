@@ -41,7 +41,6 @@ DEFAULT_DM_MESSAGE = (
     """this is a DM from ChatGPT. You can now have a conversation with me here and it will be our little secret."""
 )
 
-
 DISCLAIMER = """
 DISCLAIMER:
 I do not have a memory yet. I wont be able to remember our conversation.
@@ -49,13 +48,20 @@ Threads will be automatically closed after 24 hours.
 """
 
 COMMAND_DESCRIPTIONS = {
-    "schedule": "Shows a schedule for n about of days",
-    "chatgpt": "Ask ChatGPT a question of your choice and you will get a answer back.",
-    "help": "Show a small help section with available commands.",
-    "about": "Show a small about section for the bot.",
-    "dm": "ChatGPT will start DMs with you.",
-    "image": "Generate a image using the DALL-E AI model from OpenAI.",
-    "github stats": "Will show you brief github stats for specified user",
+    "schedule":
+        "Shows a schedule for n about of days",
+    "chatgpt":
+        "Ask ChatGPT a question of your choice and you will get a answer back.",
+    "help":
+        "Show a small help section with available commands.",
+    "about":
+        "Show a small about section for the bot.",
+    "dm":
+        "ChatGPT will start DMs with you.",
+    "image":
+        "Generate a image using the DALL-E AI model from OpenAI.",
+    "github stats":
+        "Will show you brief github stats for specified user",
 }
 
 
@@ -100,7 +106,8 @@ def openailoghandler():
     # Format the filename using the current time
     # This has to be done in order to get the same type of filename for all the log files
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
-    filename = filename["log_path_openai"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
+    filename = filename["log_path_openai"].replace(
+        "{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
 
     handler = logging.handlers.RotatingFileHandler(
         filename=filename,
@@ -109,7 +116,8 @@ def openailoghandler():
         backupCount=5,
     )
     dt_fmt = "%Y-%m-%d %H:%M:%S"
-    formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
+    formatter = logging.Formatter(
+        "[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
@@ -122,7 +130,8 @@ def discordloghandler():
     # Format the filename using the current time
     # This has to be done in order to get the same type of filename for all the log files
     current_time = datetime.datetime.utcnow().strftime("%Y-%m-%d-%H-%M-%S")
-    filename = filename["log_path_discord"].replace("{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
+    filename = filename["log_path_discord"].replace(
+        "{time:YYYY-MM-DD-HH-mm-ss!UTC}", current_time)
 
     handler = logging.handlers.RotatingFileHandler(
         filename=filename,
@@ -131,7 +140,8 @@ def discordloghandler():
         backupCount=5,
     )
     dt_fmt = "%Y-%m-%d %H:%M:%S"
-    formatter = logging.Formatter("[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
+    formatter = logging.Formatter(
+        "[{asctime}] [{levelname:<8}] {name}: {message}", dt_fmt, style="{")
     handler.setFormatter(formatter)
     logger.addHandler(handler)
 
@@ -145,7 +155,9 @@ def read_config(section):
 
     tmp_logger.debug(default_path)
     try:
-        with open(os.environ.get("BOT_CONFIG_FILE", default_path), "r", encoding="utf-8") as file:
+        with open(os.environ.get("BOT_CONFIG_FILE", default_path),
+                  "r",
+                  encoding="utf-8") as file:
             config_data = json.load(file)
             tmp_logger.debug(config_data)
             validate_config(config_data, schema=CONFIG_SCHEMA)
@@ -153,8 +165,10 @@ def read_config(section):
                 tmp_logger.debug(config_data[section])
                 return config_data[section]
             else:
-                raise ValueError(f"Section '{section}' not found in config file")
-    except (json.decoder.JSONDecodeError, jsonschema.exceptions.ValidationError) as error:
+                raise ValueError(
+                    f"Section '{section}' not found in config file")
+    except (json.decoder.JSONDecodeError,
+            jsonschema.exceptions.ValidationError) as error:
         tmp_logger.error(error)
         raise
 

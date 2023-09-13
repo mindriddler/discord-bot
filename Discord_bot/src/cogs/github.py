@@ -11,6 +11,7 @@ config = read_config("discord")
 
 
 class Github(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -21,9 +22,14 @@ class Github(commands.Cog):
         self.bot.loaded_cogs_count += 1
         logger.info(f"{__name__}: Initialized")
 
-    @app_commands.command(name="github_stats", description=COMMAND_DESCRIPTIONS["github stats"])
-    async def github_stats(self, interaction: discord.Interaction, username: str = None):
-        logger.command(f"Command '{interaction.data['name']}' executed by {str(interaction.user)} for user: {username}")
+    @app_commands.command(name="github_stats",
+                          description=COMMAND_DESCRIPTIONS["github stats"])
+    async def github_stats(self,
+                           interaction: discord.Interaction,
+                           username: str = None):
+        logger.command(
+            f"Command '{interaction.data['name']}' executed by {str(interaction.user)} for user: {username}"
+        )
 
         # defaults to creator
         # feel free to change
@@ -53,14 +59,17 @@ class Github(commands.Cog):
 
         embeds = [
             discord.Embed().set_image(url="attachment://github_user_stats.png"),
-            discord.Embed().set_image(url="attachment://github_streak_stats.png"),
+            discord.Embed().set_image(
+                url="attachment://github_streak_stats.png"),
         ]
 
         for file, embed in zip(files, embeds):
             if interaction.channel.id == config["dedicated_channel_id"]:
                 await interaction.followup.send(embed=embed, files=[file])
             else:
-                await interaction.followup.send(embed=embed, files=[file], ephemeral=True)
+                await interaction.followup.send(embed=embed,
+                                                files=[file],
+                                                ephemeral=True)
 
 
 async def setup(bot):

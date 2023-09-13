@@ -17,6 +17,7 @@ config = read_config("discord")
 
 
 class Schedule(commands.Cog):
+
     def __init__(self, bot):
         self.bot = bot
 
@@ -27,8 +28,11 @@ class Schedule(commands.Cog):
         self.bot.loaded_cogs_count += 1
         logger.info(f"{__name__}: Initialized")
 
-    @app_commands.command(name="schedule", description=COMMAND_DESCRIPTIONS["schedule"])
-    async def schedule(self, interaction: discord.Interaction, num_of_days: int = None):
+    @app_commands.command(name="schedule",
+                          description=COMMAND_DESCRIPTIONS["schedule"])
+    async def schedule(self,
+                       interaction: discord.Interaction,
+                       num_of_days: int = None):
         logger.command(
             f"Command '{interaction.data['name']}' executed by {str(interaction.user)} with number: {num_of_days}"
         )
@@ -60,26 +64,26 @@ class Schedule(commands.Cog):
 
             now = datetime.now(tz=timezone)
             end_date = now + timedelta(days=num_of_days)
-            start_of_weekday_after_now = now.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(
-                days=(7 - now.weekday()) % 7 + 1
-            )
-            start_of_weekday_after_end_date = end_date.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(
-                days=(7 - end_date.weekday()) % 7 + 1
-            )
+            start_of_weekday_after_now = now.replace(
+                hour=0, minute=0, second=0,
+                microsecond=0) + timedelta(days=(7 - now.weekday()) % 7 + 1)
+            start_of_weekday_after_end_date = end_date.replace(
+                hour=0, minute=0, second=0, microsecond=0) + timedelta(
+                    days=(7 - end_date.weekday()) % 7 + 1)
 
-            events = (
-                e
-                for e in calendar.walk()
-                if e.name == "VEVENT"
-                and start_of_weekday_after_now <= e.get("dtstart").dt < start_of_weekday_after_end_date
-                and e.get("dtstart").dt.weekday() < 5
-            )
+            events = (e for e in calendar.walk()
+                      if e.name == "VEVENT" and start_of_weekday_after_now <=
+                      e.get("dtstart").dt < start_of_weekday_after_end_date
+                      and e.get("dtstart").dt.weekday() < 5)
 
             event_dict = {}
             for event in events:
-                start_time = event.get("dtstart").dt.astimezone(timezone).strftime("%m/%d/%Y")
-                start_time_formatted = event.get("dtstart").dt.astimezone(timezone).strftime("%H:%M")
-                end_time_formatted = event.get("dtend").dt.astimezone(timezone).strftime("%H:%M")
+                start_time = event.get("dtstart").dt.astimezone(
+                    timezone).strftime("%m/%d/%Y")
+                start_time_formatted = event.get("dtstart").dt.astimezone(
+                    timezone).strftime("%H:%M")
+                end_time_formatted = event.get("dtend").dt.astimezone(
+                    timezone).strftime("%H:%M")
                 location = event.get("location")
                 description = event.get("summary")
 
@@ -92,15 +96,13 @@ class Schedule(commands.Cog):
                 if start_time not in event_dict:
                     event_dict[start_time] = []
 
-                event_dict[start_time].append(
-                    {
-                        "start_time_formatted": start_time_formatted,
-                        "end_time_formatted": end_time_formatted,
-                        "teacher": teacher.strip(),
-                        "course": course.strip(),
-                        "location": location.strip(),
-                    }
-                )
+                event_dict[start_time].append({
+                    "start_time_formatted": start_time_formatted,
+                    "end_time_formatted": end_time_formatted,
+                    "teacher": teacher.strip(),
+                    "course": course.strip(),
+                    "location": location.strip(),
+                })
 
             message = f"**Schedule for the next {num_of_days} days (excluding weekends):**\n"
             for start_time, events in event_dict.items():

@@ -31,7 +31,7 @@ logger = bot_logger.get_logger()
 dedicated_channel_id: int = discord_config["dedicated_channel_id"]
 if dedicated_channel_id == "":
     logger.critical("No dedicated channel in config.json!")
-    exit()
+    sys.exit()
 discordloghandler()
 openailoghandler()
 
@@ -112,7 +112,9 @@ async def main():
 async def send_shutdown_message():
     channel = bot.get_channel(dedicated_channel_id)
     if channel:
-        await channel.send("I have been forced to quit my services for now.. See you another time!")
+        await channel.send(
+            "I have been forced to quit my services for now.. See you another time!"
+        )
     else:
         logger.error("Couldn't find the specified channel.")
 
@@ -132,7 +134,8 @@ async def on_ready():
     guilds = bot.guilds
     guild_names = [guild.name for guild in guilds]
     logger.info(f"Successfully logged in as: {bot.user}")
-    logger.info(f"Bot is running on {len(guilds)} servers: '{', '.join(guild_names)}'")
+    logger.info(
+        f"Bot is running on {len(guilds)} servers: '{', '.join(guild_names)}'")
 
 
 @bot.event
@@ -140,28 +143,36 @@ async def on_message(message):
     if message.author == bot.user:
         return
     if message.content.startswith("#") is True:
-        logger.info(f"{message.author} used prefix '#' in message '{message.content[1:]}'")
+        logger.info(
+            f"{message.author} used prefix '#' in message '{message.content[1:]}'"
+        )
         logger.info(f"Message will be ignored by {bot.user}")
         return
 
     user_message = message.content
 
-    if message.channel.id == dedicated_channel_id or isinstance(message.channel, discord.DMChannel):
+    if message.channel.id == dedicated_channel_id or isinstance(
+            message.channel, discord.DMChannel):
         async with message.channel.typing():
             if message.channel.id == dedicated_channel_id:
-                logger.channel(f"{message.author} >> {bot.user}: {user_message}")
+                logger.channel(
+                    f"{message.author} >> {bot.user}: {user_message}")
                 bot_response = await chatgpt_response(prompt=user_message)
                 if len(bot_response) > 2000:
-                    for message_part in split_message(f"{message.author.mention}: {bot_response}"):
+                    for message_part in split_message(
+                            f"{message.author.mention}: {bot_response}"):
                         await message.channel.send(message_part)
-                        logger.channel(f"{bot.user} >> {message.author}: {message_part}")
+                        logger.channel(
+                            f"{bot.user} >> {message.author}: {message_part}")
                 else:
                     await message.channel.send(bot_response)
-                    logger.channel(f"{bot.user} >> {message.author}: {bot_response}")
+                    logger.channel(
+                        f"{bot.user} >> {message.author}: {bot_response}")
             elif isinstance(message.channel, discord.DMChannel):
                 user_id = str(message.author)
                 bot_response = await chatgpt_response(prompt=user_message)
-                await chatgpt.handle_dm(message, user_message, bot_response, bot.user, user_id)
+                await chatgpt.handle_dm(message, user_message, bot_response,
+                                        bot.user, user_id)
     else:
         pass
 

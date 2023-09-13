@@ -16,22 +16,43 @@ schema = {
             "required": ["model", "temperature", "max_tokens"],
             "additionalProperties": False,
             "properties": {
-                "model": {"type": "string"},
-                "temperature": {"type": "number"},
-                "max_tokens": {"type": "number"},
+                "model": {
+                    "type": "string"
+                },
+                "temperature": {
+                    "type": "number"
+                },
+                "max_tokens": {
+                    "type": "number"
+                },
             },
         },
         "discord": {
             "type": "object",
-            "required": ["dedicated_channel_id", "log_folder", "log_path_channel", "log_path_command"],
+            "required": [
+                "dedicated_channel_id", "log_folder", "log_path_channel",
+                "log_path_command"
+            ],
             "additionalProperties": False,
             "properties": {
-                "dedicated_channel_id": {"type": "number"},
-                "log_folder": {"type": "string"},
-                "log_path_channel": {"type": "string"},
-                "log_path_command": {"type": "string"},
-                "log_path_discord": {"type": "string"},
-                "log_level_discord": {"type": "string"},
+                "dedicated_channel_id": {
+                    "type": "number"
+                },
+                "log_folder": {
+                    "type": "string"
+                },
+                "log_path_channel": {
+                    "type": "string"
+                },
+                "log_path_command": {
+                    "type": "string"
+                },
+                "log_path_discord": {
+                    "type": "string"
+                },
+                "log_level_discord": {
+                    "type": "string"
+                },
             },
         },
         "logger": {
@@ -46,24 +67,52 @@ schema = {
                 "log_compression_format",
             ],
             "properties": {
-                "log_path_info": {"type": "string"},
-                "log_path_openai": {"type": "string"},
-                "log_level_info": {"type": "string"},
-                "log_level_openai": {"type": "string"},
-                "log_rotation": {"type": "number"},
-                "log_retention": {"type": "string"},
-                "log_compression_format": {"type": "string"},
+                "log_path_info": {
+                    "type": "string"
+                },
+                "log_path_openai": {
+                    "type": "string"
+                },
+                "log_level_info": {
+                    "type": "string"
+                },
+                "log_level_openai": {
+                    "type": "string"
+                },
+                "log_rotation": {
+                    "type": "number"
+                },
+                "log_retention": {
+                    "type": "string"
+                },
+                "log_compression_format": {
+                    "type": "string"
+                },
             },
         },
-        "schedule": {"type": "object", "properties": {"url": {"type": "string"}}, "required": ["url"]},
+        "schedule": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": ["url"]
+        },
         "github": {
             "type": "object",
             "required": ["user_stats", "streak_stats", "default_user"],
             "additionalProperties": False,
             "properties": {
-                "user_stats": {"type": "string"},
-                "streak_stats": {"type": "string"},
-                "default_user": {"type": "string"},
+                "user_stats": {
+                    "type": "string"
+                },
+                "streak_stats": {
+                    "type": "string"
+                },
+                "default_user": {
+                    "type": "string"
+                },
             },
         },
     },

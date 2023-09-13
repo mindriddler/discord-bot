@@ -3,18 +3,15 @@
 # from discord import Interaction
 # from cogs.openai import OpenAI
 
-
 # def async_test(coroutine):
 #     import asyncio
 
 #     loop = asyncio.get_event_loop()
 #     return loop.run_until_complete(coroutine)
 
-
 # @pytest.fixture
 # def bot():
 #     return MagicMock()
-
 
 # def test_chatgpt_no_message_provided(bot):
 #     chatgpt_convo = MagicMock()
@@ -29,7 +26,6 @@
 #     interaction.response.send_message.assert_called_once_with(
 #         "Please provide a message to discuss with ChatGPT.", ephemeral=True
 #     )
-
 
 # def test_chatgpt_with_message_provided(bot):
 #     chatgpt_convo = MagicMock()

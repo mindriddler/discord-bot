@@ -21,8 +21,14 @@ async def chatgpt_response(prompt):
             openai.ChatCompletion.create,
             model=openai_config["model"],
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt},
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                },
             ],
             temperature=openai_config["temperature"],
             max_tokens=openai_config["max_tokens"],
@@ -48,9 +54,9 @@ async def image_generator(prompt, size, num_of_pictures, logger):
                 n=num_of_pictures,
             ),
         )
-    except openai.error.InvalidRequestError as e:
-        logger.error(e)
-        return f"Error: {e}"
+    except openai.error.InvalidRequestError as error:
+        logger.error(error)
+        return f"Error: {error}"
     response_list = []
     if len(response["data"]) > 1:
         for url in response["data"]:

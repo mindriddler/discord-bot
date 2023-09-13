@@ -4,7 +4,6 @@
 
 # from AI.openai_api import chatgpt_response
 
-
 # @pytest.mark.asyncio
 # async def test_chatgpt_response():
 #     prompt = "What is the capital of France?"
@@ -15,7 +14,6 @@
 #         response = await chatgpt_response(prompt)
 
 #     assert response == "The capital of France is Paris."
-
 
 # @pytest.mark.asyncio
 # async def test_chatgpt_response_empty():
