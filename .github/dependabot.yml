@@ -7,12 +7,12 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-      time: "09:00"
+      time: "14:40"
       timezone: "Europe/Stockholm"
   
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "daily"
-      time: "09:00"
+      time: "14:40"
       timezone: "Europe/Stockholm"
