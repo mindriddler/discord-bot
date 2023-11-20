@@ -2,7 +2,9 @@ name: Set test status
 
 on:
   workflow_run:
-    workflows: ["Dev - Build and push image"]
+    workflows: 
+      - "Dev - Build and push image"
+      - "Dependabot Pull Request Approve and Merge"
     types:
       - completed
 
@@ -11,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       statuses: write
-    if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - name: Create status
         run: |
