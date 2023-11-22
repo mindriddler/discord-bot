@@ -4,7 +4,6 @@ on:
   workflow_run:
     workflows: 
       - "Dev - Build and push image"
-      - "Dependabot Pull Request Approve and Merge"
     types:
       - completed
 
