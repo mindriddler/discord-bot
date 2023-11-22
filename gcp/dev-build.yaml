@@ -10,3 +10,9 @@ steps:
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/discord-bot-dev:$COMMIT_SHA']
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/discord-bot-dev:$BUILD_ID']
+
+options:
+  logging: CLOUD_LOGGING_ONLY
