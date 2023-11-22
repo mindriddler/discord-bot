@@ -4,9 +4,8 @@ steps:
       - 'build'
       - '--tag=gcr.io/$PROJECT_ID/discord-bot-dev:$COMMIT_SHA'
       - '--tag=gcr.io/$PROJECT_ID/discord-bot-dev:$BUILD_ID'
-      - '--file=./Dockerfile'
+      - '--file=./Docker/Dockerfile'
       - '.'
-    dir: Docker
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/discord-bot-dev:$COMMIT_SHA']
