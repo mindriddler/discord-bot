@@ -1,0 +1,23 @@
+steps:
+  - name: python
+    entrypoint: pip
+    args: ["install", "-r", "requirements.txt", "--user"]
+    dir: Discord_bot
+
+  - name: python
+    entrypoint: python
+    args: ["-m", "flake8", "src"]
+    dir: Discord_bot
+    
+  - name: python
+    entrypoint: python
+    args: ["-m", "pylint", "--errors-only", "src"]
+    dir: Discord_bot
+    
+  - name: python
+    entrypoint: python
+    args: ["-m", "pytest", "--junitxml=test_log.xml"]
+    dir: Discord_bot
+    
+options:
+  logging: CLOUD_LOGGING_ONLY

@@ -47,3 +47,9 @@
 #     interaction.response.send_message.assert_called_once_with(
 #         f"{interaction.user.mention}: Sample response from ChatGPT"
 #     )
+
+
+def test_random():
+    a = 1
+    b = 2
+    assert a + b == 3
