@@ -3,7 +3,7 @@ name: dispatch
 on:
   schedule:
     - cron: '0 10 * * *'
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
   check_changes_and_trigger:
