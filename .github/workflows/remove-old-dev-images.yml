@@ -8,7 +8,7 @@ on:
 jobs:
   remove-old-dev-img:
     name: Delete Old Dev Image
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     if: ${{ github.actor != 'dependabot[bot]' }}
     steps:
       - uses: chipkent/action-cleanup-package@v1.0.3  #v1.0.3
