@@ -1,6 +1,6 @@
 discord.py==2.3.2
-openai==1.8.0
-python-dotenv==1.0.0
+openai==1.10.0
+python-dotenv==1.0.1
 requests==2.31.0
 pytest==7.4.4
 black==23.12.1
@@ -15,4 +15,4 @@ pytest-asyncio==0.23.3
 icalendar==5.0.11
 svglib==1.5.1
 reportlab==4.0.9
-jsonschema==4.21.0
+jsonschema==4.21.1
