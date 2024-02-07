@@ -47,7 +47,7 @@ jobs:
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Delete all untagged images
-        uses: actions/delete-package-versions@v4
+        uses: actions/delete-package-versions@v5
         with:
           owner: ${{ github.repository_owner }}
           package-name: "discord-bot-dev"
