@@ -4,12 +4,12 @@ on:
   workflow_run:
     workflows: 
       - "Dev - Build and push image"
-      - "Dependabot Pull Request Approve and Merge"
     types:
       - completed
 
 jobs:
   set_status:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
     permissions:
       statuses: write
