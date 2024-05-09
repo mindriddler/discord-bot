@@ -20,7 +20,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
       - name: Login to Github Container Registry
-        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d #v3.0.0
+        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 #v3.1.0
         with:
           registry: ghcr.io
           username: mindriddler
@@ -29,7 +29,7 @@ jobs:
         id: convert_branch_name
         run: echo "branch_name=$(sed 's|/|_|g' <<< '${{ github.head_ref || github.ref }}' )" >> "$GITHUB_OUTPUT"
       - name: Build and push
-        uses: docker/build-push-action@af5a7ed5ba88268d5278f7203fb52cd833f66d6e
+        uses: docker/build-push-action@2cdde995de11925a030ce8070c3d77a52ffcf1c0
         with:
           context: .
           file: ./Docker/Dockerfile
